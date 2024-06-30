@@ -17,11 +17,11 @@ export default function BottomTab() {
         component={HomeScreen}
         options={{
           title: 'Inicio',
-          tabBarActiveTintColor: '#FFC300', // Color activo de la pestaña
+          tabBarActiveTintColor: '#2CC8FF', // Color activo de la pestaña
           headerStyle: {
-            backgroundColor: '#FFC300', // Color del header
+            backgroundColor: '#2C8AAB', // Color del header
           },
-          headerTintColor: '#fff', // Color del texto en el header
+          headerTintColor: '#ADADAD', // Color del texto en el header
           tabBarIcon: ({ color }) => ( // Función que define el ícono de la pestaña
             <Ionicons name="home" color={color} size={24} /> // `color` proviene de React Navigation
           ),

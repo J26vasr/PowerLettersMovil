@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
  
 import BottomTab from './src/navigation/ButtomTab';
-import NavStack from './src/navigation/Navstack';
+import NavStack from './src/navigation/NavStack';
 
 //Componente principal
 export default function App() {

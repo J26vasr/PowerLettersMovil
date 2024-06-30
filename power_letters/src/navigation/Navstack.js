@@ -8,7 +8,7 @@ import SplashScreen from '../screens/SplashScreen';
 const Stack = createStackNavigator();
 
 
-export default function NavStack (){
+const  NavStack = () =>  {
   return(
     <Stack.Navigator>
       <Stack.Screen
@@ -21,3 +21,6 @@ export default function NavStack (){
     </Stack.Navigator>
   );
 }
+
+
+export default NavStack;
