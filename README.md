@@ -1,4 +1,4 @@
-# NewPowerLetters
+# PowerLetters
 Integrantes :
 Veronica Alejandra Sanchez Rosales
 20220505
