@@ -1,4 +1,4 @@
-# NewPowerLetters
+# PowerLetters
 Integrantes :
 Veronica Alejandra Sanchez Rosales
 20220505
@@ -24,7 +24,7 @@ PowerLetters tiene las siguientes funciones para un usuario Administrador las cu
 1.Pantalla de Registro.
 2.Pantalla de Login.
 3.Pantalla de bienvenida con el respectivo nombre de usuario.
-4.Agregar generos, clasificaciones, generos,autores, editoriales.
+4.Agregar generos, clasificaciones, autores, editoriales.
 5.Agregar libros.
 6.Ver usuarios cliente y usuarios administrador resgistrados.
 7.Cancelar un pedido.
