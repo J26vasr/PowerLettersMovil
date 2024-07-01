@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 // Pantallas de navegación
 import HomeScreen from '../screens/HomeScreen';
+import Productos from '../screens/Productos';
  
 // Navegador Bottom Tabs Navigator
 const Tab = createBottomTabNavigator();
@@ -15,6 +16,21 @@ export default function BottomTab() {
       <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}
+        options={{
+          title: 'PowerLetters',
+          tabBarActiveTintColor: '#2CC8FF', // Color activo de la pestaña
+          headerStyle: {
+            backgroundColor: '#FFFFFF', // Color del header
+          },
+          headerTintColor: '#5561CD', // Color del texto en el header
+          tabBarIcon: ({ color }) => ( // Función que define el ícono de la pestaña
+            <Ionicons name="home" color={color} size={24} /> // `color` proviene de React Navigation
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Libros"
+        component={Productos}
         options={{
           title: 'PowerLetters',
           tabBarActiveTintColor: '#2CC8FF', // Color activo de la pestaña
