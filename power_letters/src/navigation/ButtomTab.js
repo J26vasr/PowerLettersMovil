@@ -81,7 +81,7 @@ export default function BottomTab() {
       />
        <Tab.Screen
         name="Historial"
-        component={PerfilScreen}
+        component={HistorialScreen}
         options={{
           title: 'Historial',
           tabBarActiveTintColor: '#2CC8FF', // Color activo de la pestaña
