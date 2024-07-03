@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProductoScreen from '../screens/Productos';
 import CarritoScreen from '../screens/CarritoScreen';
 import PerfilScreen from '../screens/PerfilScreen';
+import HistorialScreen from '../screens/HistorialScreen';
  
 // Navegador Bottom Tabs Navigator
 const Tab = createBottomTabNavigator();
@@ -75,6 +76,21 @@ export default function BottomTab() {
           headerTintColor: '#5561CD', // Color del texto en el header
           tabBarIcon: ({ color }) => ( // Función que define el ícono de la pestaña
             <Ionicons name="person" color={color} size={24} /> // `color` proviene de React Navigation
+          ),
+        }}
+      />
+       <Tab.Screen
+        name="Historial"
+        component={PerfilScreen}
+        options={{
+          title: 'Historial',
+          tabBarActiveTintColor: '#2CC8FF', // Color activo de la pestaña
+          headerStyle: {
+            backgroundColor: '#FFFFFF', // Color del header
+          },
+          headerTintColor: '#5561CD', // Color del texto en el header
+          tabBarIcon: ({ color }) => ( // Función que define el ícono de la pestaña
+            <Ionicons name="albums" color={color} size={24} /> // `color` proviene de React Navigation
           ),
         }}
       />
