@@ -43,9 +43,8 @@ const CarritoScreen = () => {
   };
 
   return (
+    
     <ScrollView contentContainerStyle={styles.container}>
-     
-
       <View style={styles.grid}>
         {filteredProducts.map((product, index) => (
           <View key={index} style={styles.card}>
@@ -74,6 +73,7 @@ const styles = StyleSheet.create({
     paddingVertical: 60, // Reducido el espacio vertical
     paddingHorizontal: 15,
   },
+  
   searchContainer: {
     marginTop: 3,
     flexDirection: 'row',
