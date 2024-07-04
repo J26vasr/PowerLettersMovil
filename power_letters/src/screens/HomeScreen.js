@@ -20,27 +20,41 @@ useEffect(() => {
     'https://static.guiainfantil.com/uploads/educacion/ninoslectores-pe.jpg',
   ];
     return (
+      
         <View style={styles.container}>
+          
         <Text style={styles.title}>
-                Bienvenido usuario
+                Bienvenido usuario 
         </Text>
 
         <View style={styles.containerCarrusel}>
         <Image
         source={{ uri: images[currentImageIndex] }}
         style={styles.banner}
+
       />
-        </View>
-       
-        </View>
-        
 
-        
-     
 
+<Text style={styles.subtitulo}>
+                PowerLetters
+        </Text>
+      <Text style={styles.description}>
+                "Somos una librería comprometida a ofrecer la mejor
+                        selección de libros a nuestros clientes. Nuestra misión es fomentar la lectura
+                        y el acceso a la cultura. Con una visión de ser líderes en el mercado, nuestro
+                        lema es "Donde los libros encuentran un hogar"
+        </Text>
+        </View>
+        </View>
     );
 }
 
+const home =[
+  {
+    image: 'https://marketplace.canva.com/EAFutLMZJKs/1/0/1003w/canva-portada-libro-novela-suspenso-elegante-negro-wxuYB_sJtMw.jpg',
+    
+  },
+]
 export default HomeScreen;
 
 
@@ -56,16 +70,31 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
+        marginTop: 40,
+        textTransform: 'uppercase',
+    },
+    subtitulo:{
+      fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
         marginTop: 30,
         textTransform: 'uppercase',
+        marginTop: 40,
+    },
+    description:{
+      fontSize: 16,
+      color: 'black',
+      textAlign: 'center',
+      fontWeight:'semibold',  
     },
     negrita: {
         fontWeight: 'bold'
     },
     
   banner: {
-    width: '90%',
-    height: 150,
+    marginTop:  300,
+    width: '95%',
+    height: 250,
     borderRadius: 15,
     marginBottom: 20,
     shadowColor: '#000',
@@ -75,7 +104,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   containerCarrusel:{
-    marginTop: 70,
+    marginTop: 80,
     display: 'flex',
     justifyContent:'center',
     alignItems:'center',
