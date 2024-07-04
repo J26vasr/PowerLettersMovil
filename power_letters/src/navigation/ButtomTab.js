@@ -96,4 +96,6 @@ export default function BottomTab() {
       />
     </Tab.Navigator>
   );  
+
 }
+

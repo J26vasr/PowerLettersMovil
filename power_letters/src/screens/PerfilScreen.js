@@ -1,181 +1,137 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, Linking } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-const MiPerfilScreen = () => {
-  const [nombre, setNombre] = useState('');
-  const [username, setUsername] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const nombreRef = useRef(null);
-  const usernameRef = useRef(null);
-  const correoRef = useRef(null);
-  const telefonoRef = useRef(null);
+const PerfilScreen = () => {
+  const navigation = useNavigation();
 
-  const handleUpdate = () => {
-    // Lógica para actualizar
+  const abrirFacebook = () => {
+    Linking.openURL('https://www.facebook.com/Comodos.sv');
   };
 
-  const handleDelete = () => {
-    setNombre('');
-    setUsername('');
-    setCorreo('');
-    setTelefono('');
-    nombreRef.current.clear();
-    usernameRef.current.clear();
-    correoRef.current.clear();
-    telefonoRef.current.clear();
+  const handleMiPerfilPress = () => {
+    navigation.navigate('MiPerfil');
+  };
+
+  const handleTerminosCondicionesPress = () => {
+    navigation.navigate('TerminosyCondiciones'); // Asegúrate de que el nombre coincida
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Datos Personales</Text>
-      <View style={styles.profileImageContainer}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.profileContainer}>
         <Image
-          source={{ uri: 'https://i.pinimg.com/236x/2f/97/f0/2f97f05b32547f54ef1bdf99cd207c90.jpg' }}
+          source={{ uri: 'https://i.pinimg.com/564x/c7/f9/fe/c7f9fe2e978b08473031c87f6fe657c2.jpg' }}
           style={styles.profileImage}
         />
+        <Text style={styles.profileName}>Dickie</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nombre</Text>
-        <TextInput
-          ref={nombreRef}
-          style={styles.input}
-          placeholder="Dickey"
-          keyboardType="default"
-          onChangeText={setNombre}
-          value={nombre}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Usuario</Text>
-        <TextInput
-          ref={usernameRef}
-          style={styles.input}
-          placeholder="DK123"
-          keyboardType="email-address"
-          onChangeText={setUsername}
-          value={username}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Correo</Text>
-        <TextInput
-          ref={correoRef}
-          style={styles.input}
-          placeholder="DK123@gmail.com"
-          keyboardType="email-address"
-          onChangeText={setCorreo}
-          value={correo}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Teléfono</Text>
-        <TextInput
-          ref={telefonoRef}
-          style={styles.input}
-          placeholder="2250-5555"
-          keyboardType="phone-pad"
-          onChangeText={setTelefono}
-          value={telefono}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.updateButton]} onPress={handleUpdate}>
-          <Text style={[styles.buttonText, styles.updateButtonText]}>Actualizar</Text>
+
+      <View style={styles.menuContainer}>
+        <TouchableOpacity onPress={handleMiPerfilPress}>
+          <MenuItem title="Mi perfil" icon="person-outline" />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={handleDelete}>
-          <Text style={[styles.buttonText, styles.deleteButtonText]}>Cancelar</Text>
+        <MenuItem title="Historial" icon="settings-outline" />
+        <TouchableOpacity onPress={handleTerminosCondicionesPress}>
+          <MenuItem title="Terminos y condiciones" icon="document-text-outline" />
         </TouchableOpacity>
       </View>
-    </View>
+
+      <View style={styles.socialContainer}>
+        <Text style={styles.socialTitle}>Nuestras redes sociales</Text>
+        <View style={styles.socialIcons}>
+          <TouchableOpacity onPress={abrirFacebook}>
+            <FontAwesome name="facebook" size={30} color="#000000" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <FontAwesome name="instagram" size={30} color="#000000" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <FontAwesome name="whatsapp" size={30} color="#000000" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
+const MenuItem = ({ title, icon }) => (
+  <View style={styles.menuItem}>
+    <Ionicons name={icon} size={24} color="#000" />
+    <Text style={styles.menuItemText}>{title}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
+    flexGrow: 1,
+    backgroundColor: '#f0f4f7',
+    paddingVertical: 70,
+  },
+  profileContainer: {
     alignItems: 'center',
-    backgroundColor: '#f9f9f9',
-    paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    color: '#333',
-  },
-  profileImageContainer: {
-    position: 'relative',
-    marginBottom: 30,
+    marginBottom: 20,
+    paddingVertical: 30,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    marginHorizontal: 20,
+    elevation: 5,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 10,
   },
-  inputContainer: {
-    width: '100%',
-    marginBottom: 20,
+  profileName: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  label: {
+  profileSubtitle: {
     fontSize: 14,
-    color: '#666',
-    marginBottom: 5,
+    color: '#777',
   },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+  menuContainer: {
+    marginHorizontal: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    paddingVertical: 10,
+    elevation: 5,
   },
-  buttonContainer: {
+  menuItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
-  button: {
-    width: '48%',
-    borderRadius: 25,
+  menuItemText: {
+    fontSize: 16,
+    marginLeft: 15,
+  },
+  socialContainer: {
+    marginTop: 30,
+    backgroundColor: '#eef1f5',
     paddingVertical: 15,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#283AE2', // Color base para los botones
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 8,
+    borderRadius: 20,
+    marginHorizontal: 20,
+    elevation: 5,
   },
-  buttonText: {
+  socialTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
+    color: '#000',
+    marginBottom: 10,
   },
-  updateButton: {
-    backgroundColor: '#009929', // Color verde para botón "Actualizar"
-  },
-  deleteButton: {
-    backgroundColor: '#ca0b0b', // Color rojo para botón "Cancelar"
-  },
-  updateButtonText: {
-    color: '#fff',
-  },
-  deleteButtonText: {
-    color: '#fff',
+  socialIcons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '60%',
   },
 });
 
-export default MiPerfilScreen;
+export default PerfilScreen;
