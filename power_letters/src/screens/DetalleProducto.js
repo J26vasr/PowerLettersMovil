@@ -12,54 +12,40 @@ const DetallesProductoScreen = ({ route, navigation }) => {
         <Ionicons name="arrow-back" size={24} color="#000" />
       </TouchableOpacity>
       <Image source={{ uri: image }} style={styles.image} />
-      <View style={styles.colorOptions}>
-        <View style={[styles.colorOption, { backgroundColor: '#FFFFFF' }]} />
-        <View style={[styles.colorOption, { backgroundColor: '#F0F0F0' }]} />
-        <View style={[styles.colorOption, { backgroundColor: '#C0C0C0' }]} />
-        <View style={[styles.colorOption, { backgroundColor: '#A0A0A0' }]} />
-        <View style={[styles.colorOption, { backgroundColor: '#2020A0' }]} />
-      </View>
-      <View style={styles.sizeOptions}>
-        {['14', '20', '24', '32', '40', '42'].map(size => (
-          <TouchableOpacity key={size} style={styles.sizeOption}>
-            <Text style={styles.sizeText}>{size}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
       <View style={styles.detailsContainer}>
         <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Categoría:</Text>
-          <Text style={styles.detailsValue}>Running</Text>
+          <Text style={styles.detailsLabel}>Titulo:</Text>
+          <Text style={styles.detailsValue}>Yo antes de ti</Text>
         </View>
         <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Marca:</Text>
-          <Text style={styles.detailsValue}>Nike</Text>
-        </View>
-        <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Género:</Text>
-          <Text style={styles.detailsValue}>Zapatillas para correr</Text>
-        </View>
-        <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Existencias:</Text>
-          <Text style={styles.detailsValue}>23</Text>
+          <Text style={styles.detailsLabel}>Autor:</Text>
+          <Text style={styles.detailsValue}>mikey</Text>
         </View>
         <View style={styles.detailsRow}>
           <Text style={styles.detailsLabel}>Precio:</Text>
-          <Text style={styles.detailsValue}>$24.95</Text>
+          <Text style={styles.detailsValue}>$34</Text>
         </View>
         <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Material:</Text>
-          <Text style={styles.detailsValue}>Tela</Text>
+          <Text style={styles.detailsLabel}>Descripcion:</Text>
+          <Text style={styles.detailsValue}>Lindo libro</Text>
         </View>
         <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Código:</Text>
-          <Text style={styles.detailsValue}>C1200</Text>
+          <Text style={styles.detailsLabel}>clasificacion:</Text>
+          <Text style={styles.detailsValue}>Ficcion</Text>
         </View>
         <View style={styles.detailsRow}>
-          <Text style={styles.detailsLabel}>Descuento:</Text>
-          <Text style={styles.detailsValue}>0%</Text>
+          <Text style={styles.detailsLabel}>Editorial:</Text>
+          <Text style={styles.detailsValue}>Edde</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.detailsLabel}>Existencias:</Text>
+          <Text style={styles.detailsValue}>C120120</Text>
+        </View>
+        <View style={styles.detailsRow}>
+          <Text style={styles.detailsLabel}>Genero:</Text>
+          <Text style={styles.detailsValue}>Adultos</Text>
         </View>
       </View>
       {/* Cambia el onPress del botón para que navegue a CarritoScreen */}
