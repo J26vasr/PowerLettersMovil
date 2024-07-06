@@ -13,6 +13,7 @@ import ProductoScreen from '../screens/Productos';
 import CarritoScreen from '../screens/CarritoScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import HistorialScreen from '../screens/HistorialScreen';
+import NavStack from '../navigation/NavStack';
  
 const Stack = createStackNavigator();
 // Navegador Bottom Tabs Navigator
@@ -102,6 +103,18 @@ export default function BottomTab() {
           ),
         }}
       />
+
+      <Tab.Screen
+        name="NavStack"
+        component={NavStack}
+        //Escondemos la opcion para que no aparezca en el BottomTab
+        options={({ route }) => ({
+          tabBarButton: () => null,
+          headerShown: false
+        })}
+        
+      />
+     
     </Tab.Navigator>
 
 
