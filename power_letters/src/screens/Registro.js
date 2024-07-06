@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, TextInput 
 import { useNavigation } from '@react-navigation/native';
 
 
-const SignUp = () => {
+const SignUp = ({logueado, setLogueado}) => {
   const [name, setName] = useState('');
   const [lasname, setLastName] = useState('');
   const [dui, setDui] = useState('');
@@ -30,7 +30,7 @@ const SignUp = () => {
   };
 
   const handleLoginRedirect = () => {
-    navigation.navigate('Login');
+    setLogueado(!logueado);
   };
 
 

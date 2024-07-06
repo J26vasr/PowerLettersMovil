@@ -1,6 +1,7 @@
 // Utilidades de React Navigation
 import { createStackNavigator } from '@react-navigation/stack';
 // Pantalla de Inicio o Bienvenida
+
 import SplashScreen from '../screens/SplashScreen';
 import SignUp from '../screens/Registro';
 import DetallesProductoScreen from '../screens/DetalleProducto';
@@ -9,9 +10,9 @@ import DetallesProductoScreen from '../screens/DetalleProducto';
 const Stack = createStackNavigator();
 
 
-const  NavStack = () =>  {
+const  NavStack = ({logueado, setLogueado, LibroId}) =>  {
   return(
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Registro'>
       <Stack.Screen
         name='Splash'
         component={SplashScreen}
@@ -22,11 +23,14 @@ const  NavStack = () =>  {
 
       <Stack.Screen
         name='Registro'
-        component={SignUp}
         options={{
           headerShown: false,
         }}
-      />
+        >
+        {props => <SignUp {...props} setLogueado={setLogueado} logueado={logueado} />}
+        
+      </Stack.Screen>
+      
 
       <Stack.Screen
         name='DetalleL'

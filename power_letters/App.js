@@ -1,50 +1,80 @@
 // Hooks de React
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-// Utilidades de React Navigation
 import { NavigationContainer } from '@react-navigation/native';
  
+import  SplashScreen from './src/screens/SplashScreen'
 import BottomTab from './src/navigation/ButtomTab';
 import NavStack from './src/navigation/NavStack';
+import fetchData from './src/api/components';
 
-//Componente principal
+// Componente principal
 export default function App() {
- 
-  // appIsReady: Variable para indicar si la aplicación ya está lista
-  // setAppIsReady: Función para actualizar la variable appIsReady
+  const API = 'services/public/usuario.php';
+  const [logueado, setLogueado] = useState(false);
+  const [username, setUsername] = useState('');
+  const [imagen, setImagen] = useState('');
   const [appIsReady, setAppIsReady] = useState(false);
- 
-  // useEffect: Hook que, de forma predeterminada, se ejecuta después del primer renderizado
-  // y después de cada actualización
+
+  const verifyLogged = async () => {
+    try {
+      const data = await fetchData(API, 'getUser');
+      if (data.session) {
+        setUsername(data.username);
+        setImagen(data.imagen);
+        setLogueado(true);
+        console.log(data.username);
+      } else {
+        setLogueado(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // Función asíncrona que simula la inicialización de la aplicación
     async function inicia() {
       try {
-        // Retrasar el lanzamiento de la aplicación por 4 segundos
         await new Promise((resolve) => setTimeout(resolve, 4000));
+        await verifyLogged();
       } catch (e) {
-        // Mostrar error en caso de existir
         console.warn(e);
       } finally {
-        // Cambiar valor de la variable para indicar que la aplicación está lista
         setAppIsReady(true);
       }
     }
- 
-    // Llamar a la función inicia
+
     inicia();
-  }, []); // El segundo argumento vacío [] asegura que el efecto se ejecute solo una vez después del primer renderizado
- 
-  // Retorna el contenedor de navegación
+  }, []);
+
   return (
     <NavigationContainer>
-      {appIsReady ?
-        // Si la aplicación está lista, muestra el componente BottomTab
-        <BottomTab />
-        :
-        // Si la aplicación no está lista, muestra el componente NavStack
-        <NavStack />
-      }
-    </NavigationContainer>
+    {/* Utiliza SplashScreen importado */}
+    {appIsReady ? (
+      logueado ? (
+        <BottomTab logueado={logueado} setLogueado={setLogueado} />
+      ) : (
+        <NavStack logueado={logueado} setLogueado={setLogueado} />
+      )
+    ) : (
+      <SplashScreen />
+    )}
+  </NavigationContainer>
   );
 }
- 
+
+
+const styles = StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  splashText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+});

@@ -20,7 +20,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-export default function BottomTab() {
+export default function BottomTab({logueado, setlogueado, LibroId}) {
 
   return (
     
@@ -112,7 +112,7 @@ export default function BottomTab() {
           tabBarButton: () => null,
           headerShown: false
         })}
-        
+
       />
      
     </Tab.Navigator>
