@@ -11,6 +11,7 @@ export default async function fetchData(filename, action, form = null) {
         method: form ? 'POST' : 'GET', // Usa POST si se proporciona un formulario, de lo contrario usa GET
         ...(form && { body: form }) // Añade el cuerpo si se proporciona un formulario
     };
+    
 
     try {
         // Construcción de la URL con los parámetros necesarios

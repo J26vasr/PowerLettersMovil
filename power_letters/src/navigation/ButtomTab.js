@@ -9,7 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 // Pantallas de navegación
 import HomeScreen from '../screens/HomeScreen';
-import ProductoScreen from '../screens/Productos';
+import ProductoScreen from '../screens/Libros';
 import CarritoScreen from '../screens/CarritoScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import HistorialScreen from '../screens/HistorialScreen';

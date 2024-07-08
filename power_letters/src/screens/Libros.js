@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
+ 
 const ProductoScreen = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-
+ 
   const products = [
     {
       title: 'Yo antes de ti',
@@ -29,15 +30,15 @@ const ProductoScreen = () => {
       image: 'https://template.canva.com/EADwi4xAG6I/1/0/256w-JBWCAd5q564.jpg',
     },
   ];
-
+ 
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchText.toLowerCase())
   );
-
+ 
   const handleVerMas = (producto) => {
     navigation.navigate('DetallesProducto', { producto });
   };
-
+ 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
@@ -49,7 +50,7 @@ const ProductoScreen = () => {
           onChangeText={setSearchText}
         />
       </View>
-
+ 
       <View style={styles.grid}>
         {filteredProducts.map((product, index) => (
           <View key={index} style={styles.card}>
@@ -62,14 +63,14 @@ const ProductoScreen = () => {
             >
               <Text style={styles.buttonText}>Ver más</Text>
             </TouchableOpacity>
-
+ 
           </View>
         ))}
       </View>
     </ScrollView>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -156,5 +157,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
+ 
 export default ProductoScreen;
