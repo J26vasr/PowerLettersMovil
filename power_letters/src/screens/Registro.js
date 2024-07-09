@@ -11,7 +11,6 @@ const SignUp = ({logueado, setLogueado}) => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [birth, setBirth] = useState('');
-  const [img, setImagen] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
  
@@ -26,7 +25,6 @@ const SignUp = ({logueado, setLogueado}) => {
     console.log('Direccion:', address);
     console.log('Nacimiento:', birth);
     console.log('Contraseña:', password);
-    console.log('Imagen:', img);
   };
 
   const handleLoginRedirect = () => {
@@ -84,14 +82,6 @@ const SignUp = ({logueado, setLogueado}) => {
         placeholder="Fecha de nacimiento"
         onChangeText={text => setBirth(text)}
         value={birth}
-        secureTextEntry={true}
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Imagen"
-        onChangeText={text => setImagen(text)}
-        value={img}
         secureTextEntry={true}
       />
       <TextInput
