@@ -49,7 +49,10 @@ const  NavStack = ({logueado, setLogueado, LibroId}) =>  {
         options={{
           headerShown: false,
         }}
+        
       />
+      {props => <DetallesProductoScreen {...props} LibroId={LibroId} />}
+        
 
     </Stack.Navigator>
   );

@@ -1,14 +1,14 @@
 
-import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, FlatList, ScrollView, SafeAreaView, Image } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image, Button } from 'react-native';
 import { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons'; // Importamos el ícono
+import * as Constantes from "../../utils/constantes";
 
 //recibimos por props la imagen del producto, nombre, precio y otras propiedades de productos para mostrarlas en el componente de 
 //productoCard
 
 
-export default function ProductoCard({ ip, idLibro, tituloLibro, descripcionLibro, precioLibro
-  , imagenLibro, autor, editorial, clasificacion, genero, existenciasLibro
+export default function ProductoCard({ item, onPress
 }) {
 
   return (
@@ -16,21 +16,16 @@ export default function ProductoCard({ ip, idLibro, tituloLibro, descripcionLibr
     <View style={styles.card}>
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: `${ip}/NewPowerLetters/api/images/libros/${imagenLibro}` }}
+          source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
           style={styles.image}
           resizeMode="contain" // Ajustar la imagen al contenedor
         />
       </View>
-      <Text style={styles.text}>{idProducto}</Text>
-      <Text style={styles.textTitle}>{nombreProducto}</Text>
-      <Text style={styles.text}>{descripcionProducto}</Text>
-      <Text style={styles.textTitle}>Precio: <Text style={styles.textDentro}>${precioProducto}</Text></Text>
-      <Text style={styles.textTitle}>Existencias: <Text style={styles.textDentro}>{existenciasProducto} {(existenciasProducto === 1) ? 'Unidad' : 'Unidades'}</Text></Text>
-      <TouchableOpacity
-        style={styles.cartButton}
-        onPress={accionBotonProducto}>
-        <FontAwesome name="plus-circle" size={24} color="white" />
-        <Text style={styles.cartButtonText}>Seleccionar Producto</Text>
+      <Text style={styles.text}>{item.id_libro}</Text>
+      <Text style={styles.textTitle}>{item.titulo_libro}</Text>
+      <Text style={styles.textTitle}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
+      <TouchableOpacity onPress={onPress} style={styles.buton}>
+        <Text>Ver mas</Text>
       </TouchableOpacity>
     </View>
 
@@ -43,88 +38,48 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },
-  container: {
-    flex: 1,
-    backgroundColor: '#EAD8C0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    padding: 16,
-    marginVertical: 1,
-    marginHorizontal: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  text: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  textTitle: {
-    fontSize: 16,
-    marginBottom: 8, fontWeight: '700'
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 8,
-    marginLeft: 8,
-  },
-  button: {
-    backgroundColor: '#AF8260',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600'
-  },
   image: {
-    width: '65%',
-    height: 150,
-    borderRadius: 8,
-    marginBottom: 12,
+    width: 170,
+    height: 260,
+    borderRadius: 20,
+    marginBottom: 15,
   },
   imageContainer: {
     alignItems: 'center', // Centrar imagen horizontalmente
   }, textDentro: {
     fontWeight: '400'
   },
-  cartButton: {
-    flexDirection: 'row',
+  
+  card: {
+    width: '50%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 25,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#AF8260',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
   },
-  cartButtonText: {
-    color: '#ffffff',
+  buton: {
+    marginTop: 20,
+    backgroundColor: '#5981CF',
+    borderRadius: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+  },
+  buttonText: {
+    color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 10,
-    textAlign: 'center'
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

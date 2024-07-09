@@ -1,44 +1,54 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, FlatList, RefreshControl } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import fetchData from '../api/components';
+import LibroItem from '../components/Libros/ProductoCard';
 
- 
 const ProductoScreen = () => {
+
+  const [dataLibros, setDataLibros] = useState([]);
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
- 
-  const products = [
-    {
-      title: 'Yo antes de ti',
-      precio: '$14.99',
-      image: 'https://marketplace.canva.com/EAFutLMZJKs/1/0/1003w/canva-portada-libro-novela-suspenso-elegante-negro-wxuYB_sJtMw.jpg',
-    },
-    {
-      title: 'Una gota gorda',
-      precio: '$14.99',
-      image: 'https://edit.org/img/blog/yrm-1024-plantillas-ebook-gratis-editables-online.webp',
-    },
-    {
-      title: 'Juana de arco',
-      precio: '$14.99',
-      image: 'https://www.letraminuscula.com/wp-content/uploads/Portada-55x85-EL-CAMINO-DE-LA-GUERRERA-663x1024.jpg',
-    },
-    {
-      title: 'Marianela',
-      precio: '$14.99',
-      image: 'https://template.canva.com/EADwi4xAG6I/1/0/256w-JBWCAd5q564.jpg',
-    },
-  ];
- 
-  const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(searchText.toLowerCase())
+  const [quantityProducts, setQuantityProducts] = useState('');
+  const LIBROS_API = 'services/public/libros.php'
+  const [error, setError] = useState(null);
+  const fillProducts = async () => {
+    try {
+      const data = await fetchData(LIBROS_API, 'readAll');
+      if (data.status) {
+        setDataLibros(data.dataset);
+        setQuantityProducts(data.message);
+      }
+      else {
+        setDataLibros([]);
+        setQuantityProducts('Existen 0 coincidencias');
+      }
+    }
+    catch (error) {
+      setError(error);
+    }
+  }
+  const handleLibrosPress = (libroId) => {
+    if (!libroId) {
+      alert('No se pudieron cargar los libros');
+      return;
+    }
+    console.log("No se pudo cargar los libros", libroId);
+    navigation.navigate('NavStack', { screens: 'DetalleL', params: { libroId } });
+  }
+  useEffect(() => {
+    fillProducts();
+  }, []);
+
+  const renderLibrosItem = ({ item }) => (
+    <LibroItem item={item} onPress={handleLibrosPress} />
   );
- 
+
   const handleVerMas = (producto) => {
     navigation.navigate('DetallesProducto', { producto });
   };
- 
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
@@ -50,27 +60,19 @@ const ProductoScreen = () => {
           onChangeText={setSearchText}
         />
       </View>
- 
+      <FlatList
+        data={dataLibros}
+        renderItem={renderLibrosItem}
+        keyExtractor={(item) => item.id_libro}
+        numColumns={2}>
+      </FlatList>
       <View style={styles.grid}>
-        {filteredProducts.map((product, index) => (
-          <View key={index} style={styles.card}>
-            <Image source={{ uri: product.image }} style={styles.cardImage} />
-            <Text style={styles.cardTitle}>{product.title}</Text>
-            <Text style={styles.cardDescription}>{product.precio}</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('DetallesProducto', { producto: product })}
-            >
-              <Text style={styles.buttonText}>Ver más</Text>
-            </TouchableOpacity>
- 
-          </View>
-        ))}
+       
       </View>
     </ScrollView>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -157,5 +159,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
- 
+
 export default ProductoScreen;
