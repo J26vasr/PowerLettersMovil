@@ -23,7 +23,7 @@ const HomeScreen = () => {
 
 
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <Text style={styles.subtitle}>Bienvenido Usuario</Text>
+      <Text style={styles.subtitle}>Bienvenido</Text>
       <View style={styles.carouselContainer}>
         <Image
           source={{ uri: images[currentImageIndex] }}

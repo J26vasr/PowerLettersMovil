@@ -28,7 +28,7 @@ export default function CarritoCard({ item, onPress
       <TouchableOpacity onPress={() => onPress(item.id_libro)} style={styles.buton}>
         <Text>Ver mas</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => onPress(item.id_libro)} style={styles.buton2}>
+      <TouchableOpacity onPress={() => handleDeleteDetalleCarrito(item.id_detalle)} style={styles.buton2}>
         <Text>Eliminar</Text>
       </TouchableOpacity>
     </View>
