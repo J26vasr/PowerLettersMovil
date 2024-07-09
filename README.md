@@ -31,4 +31,23 @@ PowerLetters tiene las siguientes funciones para un usuario Administrador las cu
 8.Dar de baja un comentario.
 9.Ver pedidos.
 
+Algunas dependencias que fueron instaladas son:
+
+"@react-navigation/bottom-tabs": "^6.5.20",
+    "@react-navigation/native": "^6.1.17",
+    "@react-navigation/stack": "^6.3.29",
+    "expo": "~51.0.14",
+    "expo-status-bar": "~1.12.1",
+    "react": "18.2.0",
+    "react-native": "0.74.2",
+    "react-native-gesture-handler": "~2.16.1",
+    "react-native-paper": "^5.12.3",
+    "react-native-picker-select": "^9.1.3",
+    "react-native-reanimated": "~3.10.1",
+    "react-native-safe-area-context": "4.10.1",
+    "react-native-screens": "3.31.1"
+
+    y la licencia seleccionada es :
+    Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA) : Esta licencia permite a otros remezclar, modificar y construir sobre tu trabajo de manera no comercial, siempre y cuando te den crédito y licencien sus nuevas creaciones bajo los mismos términos.
+
 
