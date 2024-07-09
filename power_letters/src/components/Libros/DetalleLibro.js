@@ -1,19 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import * as Constantes from "../../utils/constantes";
 
 export default function DetalleProductoCard({ item, onPress }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentImageIndex(prevIndex => (prevIndex + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const images = [
+    'https://static.vecteezy.com/system/resources/previews/013/751/768/non_2x/abstract-rough-gradient-background-black-blue-white-design-templates-free-photo.jpg',
+    
+  ];
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.imagenF}>
+      <Imag
+      
+          source={{ uri: images[currentImageIndex] }}
+          style={styles.imgFondo}
+
+        />
+        
+      </View>
       
       <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
-          style={styles.image}
-          resizeMode="contain"
-        />
-      </View>
+          <Image
+            source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </View>
+
+
       <Text style={styles.title}>{item.titulo_libro}</Text>
       <View style={styles.detailsContainer}>
         <Text style={styles.description}>{item.descripcion_libro}</Text>
@@ -35,6 +59,19 @@ export default function DetalleProductoCard({ item, onPress }) {
 
 const styles = StyleSheet.create({
 
+  imgFondo:{
+    marginTop:20,
+    width: '100%',
+    height: 500,
+    borderRadius: 15,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+
+  },
   container: {
     flexGrow: 1,
     padding: 5,
@@ -45,7 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    marginTop: 80,
+    marginTop: -380,
     width: '100%',
     height: 300,
     borderRadius: 20,
