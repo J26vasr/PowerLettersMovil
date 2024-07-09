@@ -35,6 +35,7 @@ const LoginScreen = ({ logueado, setLogueado }) => {
     }
   };
 
+      // Estilo de los elementos del login
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bienvenido</Text>

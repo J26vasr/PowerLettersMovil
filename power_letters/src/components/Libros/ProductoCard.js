@@ -12,7 +12,7 @@ export default function ProductoCard({ item, onPress
 }) {
 
   return (
-
+//Plantilla de las tarjetas de libros
     <View style={styles.card}>
       <View style={styles.imageContainer}>
         <Image
@@ -31,7 +31,7 @@ export default function ProductoCard({ item, onPress
   );
 }
 
-
+//Diseño y estilo de las tarjetas
 const styles = StyleSheet.create({
   containerFlat: {
     flex: 1,

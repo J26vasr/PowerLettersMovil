@@ -5,31 +5,36 @@ import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
 import LibroItem from '../components/Libros/ProductoCard';
 
-
 const ProductoScreen = () => {
-
+  // Estados para manejar los datos de los libros, el texto de búsqueda, la cantidad de productos y los errores
   const [dataLibros, setDataLibros] = useState([]);
-  const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
   const [quantityProducts, setQuantityProducts] = useState('');
-  const LIBROS_API = 'services/public/libros.php'
   const [error, setError] = useState(null);
+
+  // Constante de navegación entre pantallas
+  const navigation = useNavigation();
+
+  // URL de la API para obtener los libros
+  const LIBROS_API = 'services/public/libros.php';
+
+  // Función asincrónica para llenar la lista de productos desde la API
   const fillProducts = async () => {
     try {
       const data = await fetchData(LIBROS_API, 'readAll');
       if (data.status) {
         setDataLibros(data.dataset);
         setQuantityProducts(data.message);
-      }
-      else {
+      } else {
         setDataLibros([]);
         setQuantityProducts('Existen 0 coincidencias');
       }
-    }
-    catch (error) {
+    } catch (error) {
       setError(error);
     }
-  }
+  };
+
+  // Maneja la navegación al presionar un libro
   const handleLibrosPress = (libroId) => {
     console.log("ID: ", libroId);
     if (!libroId) {
@@ -37,16 +42,19 @@ const ProductoScreen = () => {
       return;
     }
     navigation.navigate('NavStack', { screen: 'DetalleL', params: { libroId } });
-  }
+  };
+
+  // Hook de efecto para llenar los productos cuando el componente se monta
   useEffect(() => {
     fillProducts();
   }, []);
 
+  // Función para renderizar cada item de la lista de libros
   const renderLibrosItem = ({ item }) => (
     <LibroItem item={item} onPress={handleLibrosPress} />
   );
 
- 
+  // Cuerpo de las card
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
@@ -62,10 +70,9 @@ const ProductoScreen = () => {
         data={dataLibros}
         renderItem={renderLibrosItem}
         keyExtractor={(item) => item.id_libro}
-        numColumns={2}>
-      </FlatList>
+        numColumns={2}
+      />
       <View style={styles.grid}>
-       
       </View>
     </ScrollView>
   );

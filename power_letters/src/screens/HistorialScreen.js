@@ -7,6 +7,7 @@ const HistorialScreen = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
 
+  // Campos de ejemplo de datos del historial
   const products = [
     {
       title: '3/01/21',
@@ -47,7 +48,7 @@ const HistorialScreen = () => {
   };
 
   return (
-    
+    // Depositando los datos en campos para luego darles estilo
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.grid}>
         {filteredProducts.map((product, index) => (

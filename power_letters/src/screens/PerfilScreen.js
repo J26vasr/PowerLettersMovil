@@ -10,16 +10,17 @@ const PerfilScreen = () => {
   const abrirFacebook = () => {
     Linking.openURL('https://www.facebook.com/Comodos.sv');
   };
-
+ // Navegacion entre laspantallas
   const handleMiPerfilPress = () => {
     navigation.navigate('MiPerfil');
   };
 
   const handleTerminosCondicionesPress = () => {
-    navigation.navigate('TerminosyCondiciones'); // Asegúrate de que el nombre coincida
+    navigation.navigate('TerminosyCondiciones');
   };
 
   return (
+     //Estilo del perfil dviddido en distintas opciones
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileContainer}>
         <Image
