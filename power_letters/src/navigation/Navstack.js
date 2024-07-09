@@ -33,8 +33,8 @@ const  NavStack = ({logueado, setLogueado,libroId}) =>  {
         }}
       />
 
-      <Stack.Screen
-        name='Registro'
+      <Stack.Screen 
+        name='Registro' 
         options={{
           headerShown: false,
         }}

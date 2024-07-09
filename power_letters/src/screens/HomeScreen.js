@@ -21,36 +21,26 @@ const HomeScreen = () => {
   ];
   return (
 
-    <ScrollView contentContainerStyle={styles.containerS}>
-
+      
+<ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
-        <View style={styles.containerCarrusel}>
+        <View style={styles.carouselContainer}>
           <Image
             source={{ uri: images[currentImageIndex] }}
             style={styles.banner}
-
           />
           <View style={styles.card}>
-            <Text style={styles.subtitulo}>
-
-              PowerLetters
-            </Text>
+            <Text style={styles.subtitle}>PowerLetters</Text>
             <Text style={styles.description}>
-              "Somos una librería comprometida a ofrecer la mejor
-              selección de libros a nuestros clientes. Nuestra misión es fomentar la lectura
-              y el acceso a la cultura. Con una visión de ser líderes en el mercado, nuestro
-              lema es "Donde los libros encuentran un hogar"
+              "Somos una librería comprometida a ofrecer la mejor selección de libros a nuestros clientes. Nuestra misión es fomentar la lectura y el acceso a la cultura. Con una visión de ser líderes en el mercado, nuestro lema es "Donde los libros encuentran un hogar"
             </Text>
+            <View style={styles.logoContainer}>
+              <Image source={require('../img/libroSS.png')} style={styles.logo} />
+            </View>
           </View>
-
         </View>
-
       </View>
-
-
-
     </ScrollView>
-
 
 
   );
@@ -67,16 +57,20 @@ export default HomeScreen;
 
 // Estilos para los componentes.
 const styles = StyleSheet.create({
-  containerS: {
-    flexGrow: 1,
+  
+  logo: {
+    marginTop:30,
+    width: 250,
+    height: 200,
+    marginBottom: 10,
+  },
+  scrollContainer: {
     backgroundColor: '#F8F9FB',
-    paddingVertical: 60, // Reducido el espacio vertical
-    paddingHorizontal: 15,
   },
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 20,
+    
     paddingHorizontal: 15
   },
   title: {
@@ -105,8 +99,7 @@ const styles = StyleSheet.create({
   },
 
   banner: {
-    marginTop: 500,
-    width: '100%',
+    width: '120%',
     height: 500,
     borderRadius: 15,
     marginBottom: 20,
@@ -125,8 +118,8 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    marginTop: -90,
-    width: '90%',
+    marginTop: -150,
+    width: '100%',
     height: 400,
     backgroundColor: '#fff',
     borderRadius: 20,
