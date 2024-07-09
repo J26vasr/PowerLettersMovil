@@ -34,28 +34,33 @@ export default function SplashScreen() {
     return (
       <View  style={styles.container}>
         <Text style={styles.title}>
-          Bienvenidos
+          Bienvenido a PowerLetters
         </Text>
-        <Animated.Image
-          source={require('../img/libroSS.png')}
-          style={{ transform: [{ rotate }] }}
-        />
+         <Animated.Image
+        source={require('../img/libroSS.png')}
+        style={[styles.image, { transform: [{ rotate }] }]}
+      />
       </View>
     );
 
   }
   
   const styles = StyleSheet.create({
+    image: {
+      marginTop:40,
+      width: 200, // Adjust the width as needed
+      height: 200, // Adjust the height as needed
+    },
     container: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'black',
+      backgroundColor: '#0B3954',
       padding: 8,
     },
     title: {
       margin: 24,
-      fontSize: 38,
+      fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
       color: '#FFF',

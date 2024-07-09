@@ -38,6 +38,10 @@ const LoginScreen = ({ logueado, setLogueado }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bienvenido</Text>
+      <Animated.Image
+        source={require('../img/login.jpg')}
+        style={[styles.logo, { transform: [{ translateY }] }]}
+      />
       <TextInput
         label="Email"
         value={email}
@@ -61,6 +65,12 @@ const LoginScreen = ({ logueado, setLogueado }) => {
 };
 
 const styles = StyleSheet.create({
+  
+  logo: {
+    width: 250,
+    height: 235,
+    marginBottom: 20,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -72,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#6200ee',
+    color: 'black',
   },
   input: {
     marginBottom: 15,

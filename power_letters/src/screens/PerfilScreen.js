@@ -26,7 +26,7 @@ const PerfilScreen = () => {
           source={{ uri: 'https://i.pinimg.com/564x/c7/f9/fe/c7f9fe2e978b08473031c87f6fe657c2.jpg' }}
           style={styles.profileImage}
         />
-        <Text style={styles.profileName}>Dickie</Text>
+        <Text style={styles.profileName}>Bakugo</Text>
       </View>
 
       <View style={styles.menuContainer}>
