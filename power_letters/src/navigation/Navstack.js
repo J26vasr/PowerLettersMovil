@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/Login';
 import SignUp from '../screens/Registro';
-import DetallesProductoScreen from '../screens/DetalleProducto';
+import DetalleLibroScreen from '../screens/DetalleProducto';
 
 // Navegador Stack
 const Stack = createStackNavigator();
@@ -49,7 +49,7 @@ const  NavStack = ({logueado, setLogueado,libroId}) =>  {
           headerShown: false,
         }}
       >
-        {props => <DetallesProductoScreen {...props} libroId={libroId} />}
+        {props => <DetalleLibroScreen {...props} libroId={libroId} />}
       </Stack.Screen>
         
 
