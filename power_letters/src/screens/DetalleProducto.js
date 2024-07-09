@@ -1,6 +1,6 @@
 // DetalleLibroScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,Alert  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
 import DetalleProductoCard from '../components/Libros/DetalleLibro';
@@ -11,14 +11,42 @@ const DetalleLibroScreen = ({ route }) => {
   const navigation = useNavigation();
   const [error, setError] = useState(null);
   const LIBROS_API = 'services/public/libros.php';
+  const PEDIDO_API = 'services/public/pedido.php';
 
-  const handleAddToCart = (libroId) => {
-    if (!libroId) {
-      alert('No se pudo agregar al carrito');
-      return;
+  const handleAddToCart = async (libroId) => {
+    try {
+        const cantidadSolicitada = 1; // Assuming a quantity of 1 for this example
+        const updateForm = new FormData();
+        updateForm.append('idLibro', libroId);
+        updateForm.append('cantidad', cantidadSolicitada);
+
+        const updateResponse = await fetchData(LIBROS_API, 'updateExistencias', updateForm);
+        if (!updateResponse.status) {
+            console.log(updateResponse.error);
+            Alert.alert('Error', 'No se pudo actualizar las existencias');
+            return;
+        }
+
+        const orderForm = new FormData();
+        orderForm.append('idLibro', libroId);
+        orderForm.append('cantidad', cantidadSolicitada);
+
+        const orderResponse = await fetchData(PEDIDO_API, 'createDetail', orderForm);
+        if (orderResponse.status) {
+            Alert.alert('Éxito', orderResponse.message, [
+                { text: 'OK', onPress: () => navigation.navigate('ButtomTab', { screen: 'Carrito' }) },
+            ]);
+        } else if (orderResponse.session) {
+            Alert.alert('Sesión', orderResponse.error);
+        } else {
+            Alert.alert('Error', orderResponse.error, [
+                { text: 'OK', onPress: () => navigation.navigate('Home') },
+            ]);
+        }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
     }
-    navigation.navigate('ButtomTab', { screen: 'Carrito' });
-  };
+};
 
   useEffect(() => {
     const fillProduct = async () => {

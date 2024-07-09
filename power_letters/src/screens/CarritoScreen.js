@@ -1,70 +1,71 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, FlatList, RefreshControl } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import fetchData from '../api/components';
+import LibroItem from '../components/Libros/ProductoCard';
+
 
 const CarritoScreen = () => {
+
+  const [dataLibros, setDataLibros] = useState([]);
   const navigation = useNavigation();
-  const [searchText, setSearchText] = useState('');
+  const [quantityProducts, setQuantityProducts] = useState('');
+  
+  const PEDIDO_API = 'services/public/pedido.php';
+  const [error, setError] = useState(null);
+  const fillProducts = async () => {
+    try {
+      const data = await fetchData(PEDIDO_API, 'readDetail');
+      if (data.status) {
+        setDataLibros(data.dataset);
+        setQuantityProducts(data.message);
+        console.log("Lista de carrito "+dataLibros);
+      }
+      else {
+        setDataLibros([]);
+        setQuantityProducts('Existen 0 coincidencias');
+      }
+    }
+    catch (error) {
+      setError(error);
+    }
+  }
+  const handleLibrosPress = (libroId) => {
+    console.log("ID: ", libroId);
+    if (!libroId) {
+      alert('No se pudieron cargar los libros');
+      return;
+    }
+    navigation.navigate('NavStack', { screen: 'DetalleL', params: { libroId } });
+  }
+  useEffect(() => {
+    fillProducts();
+  }, []);
 
-  const products = [
-    {
-      title: 'Yo antes de ti',
-      precio: 'Precio: $14.99',
-      image: 'https://marketplace.canva.com/EAFutLMZJKs/1/0/1003w/canva-portada-libro-novela-suspenso-elegante-negro-wxuYB_sJtMw.jpg',
-      cantidad: 'Cantidad: 3',
-    },
-    {
-      title: 'Yo antes de ti',
-      precio: 'Precio: $14.99',
-      image: 'https://marketplace.canva.com/EAFutLMZJKs/1/0/1003w/canva-portada-libro-novela-suspenso-elegante-negro-wxuYB_sJtMw.jpg',
-      cantidad: 'Cantidad: 3',
-    },
-    {
-      title: 'Yo antes de ti',
-      precio: 'Precio: $14.99',
-      image: 'https://marketplace.canva.com/EAFutLMZJKs/1/0/1003w/canva-portada-libro-novela-suspenso-elegante-negro-wxuYB_sJtMw.jpg',
-      cantidad: 'Cantidad: 3',
-    },
-    {
-      title: 'Yo antes de ti',
-      precio: 'Precio: $14.99',
-      image: 'https://marketplace.canva.com/EAFutLMZJKs/1/0/1003w/canva-portada-libro-novela-suspenso-elegante-negro-wxuYB_sJtMw.jpg',
-      cantidad: 'Cantidad: 3',
-    },
-  ];
-
-  const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(searchText.toLowerCase())
+  const renderLibrosItem = ({ item }) => (
+    <LibroItem item={item} onPress={handleLibrosPress} />
   );
 
-  const handleVerMas = (producto) => {
-    navigation.navigate('DetallesProducto', { producto });
-  };
-
+  
+ 
   return (
-    
     <ScrollView contentContainerStyle={styles.container}>
+      
+      <FlatList
+        data={dataLibros}
+        renderItem={renderLibrosItem}
+        keyExtractor={(item) => item.id_detalle}
+        numColumns={2}>
+      </FlatList>
       <View style={styles.grid}>
-        {filteredProducts.map((product, index) => (
-          <View key={index} style={styles.card}>
-            <Image source={{ uri: product.image }} style={styles.cardImage} />
-            <Text style={styles.cardTitle}>{product.title}</Text>
-            <Text style={styles.cardDescription}>{product.precio}</Text>
-            <Text style={styles.cardCantidad}>{product.cantidad}</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('DetallesProducto', { producto: product })}
-            >
-              <Text style={styles.buttonText}>Ver más</Text>
-            </TouchableOpacity>
-
-          </View>
-        ))}
+       
       </View>
     </ScrollView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
