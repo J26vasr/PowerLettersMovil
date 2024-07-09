@@ -21,22 +21,25 @@ const HomeScreen = () => {
   ];
   return (
 
-      
-<ScrollView contentContainerStyle={styles.scrollContainer}>
+
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <Text style={styles.subtitle}>Bienvenido Usuario</Text>
+      <View style={styles.carouselContainer}>
+        <Image
+          source={{ uri: images[currentImageIndex] }}
+          style={styles.banner}
+        />
+      </View>
+
       <View style={styles.container}>
-        <View style={styles.carouselContainer}>
-          <Image
-            source={{ uri: images[currentImageIndex] }}
-            style={styles.banner}
-          />
-          <View style={styles.card}>
-            <Text style={styles.subtitle}>PowerLetters</Text>
-            <Text style={styles.description}>
-              "Somos una librería comprometida a ofrecer la mejor selección de libros a nuestros clientes. Nuestra misión es fomentar la lectura y el acceso a la cultura. Con una visión de ser líderes en el mercado, nuestro lema es "Donde los libros encuentran un hogar"
-            </Text>
-            <View style={styles.logoContainer}>
-              <Image source={require('../img/libroSS.png')} style={styles.logo} />
-            </View>
+
+        <View style={styles.card}>
+          <Text style={styles.subtitle}>PowerLetters</Text>
+          <Text style={styles.description}>
+            "Somos una librería comprometida a ofrecer la mejor selección de libros a nuestros clientes. Nuestra misión es fomentar la lectura y el acceso a la cultura. Con una visión de ser líderes en el mercado, nuestro lema es "Donde los libros encuentran un hogar"
+          </Text>
+          <View style={styles.logoContainer}>
+            <Image source={require('../img/libroSS.png')} style={styles.logo} />
           </View>
         </View>
       </View>
@@ -57,9 +60,9 @@ export default HomeScreen;
 
 // Estilos para los componentes.
 const styles = StyleSheet.create({
-  
+
   logo: {
-    marginTop:30,
+    marginTop: 30,
     width: 250,
     height: 200,
     marginBottom: 10,
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    
+
     paddingHorizontal: 15
   },
   title: {
@@ -80,13 +83,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     textTransform: 'uppercase',
   },
-  subtitulo: {
-    fontSize: 20,
+  subtitle: {
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 30,
-    textTransform: 'uppercase',
-    marginTop: 40,
+    marginBottom: 8,
+    color: '#333',
   },
   description: {
     fontSize: 16,
@@ -99,7 +101,8 @@ const styles = StyleSheet.create({
   },
 
   banner: {
-    width: '120%',
+    marginTop:20,
+    width: '100%',
     height: 500,
     borderRadius: 15,
     marginBottom: 20,
