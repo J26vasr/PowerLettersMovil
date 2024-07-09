@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
-import { TextInput, Button, Text } from 'react-native-paper';
+import { TextInput, Button, Text, Image} from 'react-native-paper';
 import fetchData from '../api/components';
 
 // Componente de pantalla de inicio de sesión
@@ -39,10 +39,7 @@ const LoginScreen = ({ logueado, setLogueado }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bienvenido</Text>
-      <Animated.Image
-        source={require('../img/login.jpg')}
-        style={[styles.logo, { transform: [{ translateY }] }]}
-      />
+      
       <TextInput
         label="Email"
         value={email}

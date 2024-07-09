@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, TextInput } from 'react-native';
 import * as Constantes from "../../utils/constantes";
 
 export default function DetalleProductoCard({ item, onPress }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const [email, setEmail] = useState('');
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -20,8 +23,8 @@ export default function DetalleProductoCard({ item, onPress }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imagenF}>
-      <Imag
-      
+      <Image
+
           source={{ uri: images[currentImageIndex] }}
           style={styles.imgFondo}
 
@@ -47,6 +50,8 @@ export default function DetalleProductoCard({ item, onPress }) {
         <Text style={styles.detailsLabel}>Editorial: <Text style={styles.detailsValue}>{item.nombre_editorial}</Text></Text>
         <Text style={styles.detailsLabel}>Género: <Text style={styles.detailsValue}>{item.nombre_genero}</Text></Text>
         <Text style={styles.detailsLabel}>Existencias: <Text style={styles.detailsValue}>{item.existencias}</Text></Text>
+       
+
 
       </View>
       <TouchableOpacity style={styles.addButton} onPress={() => onPress(item.id_libro)}>
@@ -58,6 +63,12 @@ export default function DetalleProductoCard({ item, onPress }) {
 
 
 const styles = StyleSheet.create({
+  
+  input: {
+    marginBottom: 15,
+    backgroundColor: 'white',
+    
+  },
 
   imgFondo:{
     marginTop:20,

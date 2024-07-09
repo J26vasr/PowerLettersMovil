@@ -21,8 +21,9 @@ export default function ProductoCard({ item, onPress
           resizeMode="contain" // Ajustar la imagen al contenedor
         />
       </View>
-      <Text style={styles.textTitle}>{item.titulo_libro}</Text>
+      <Text style={styles.textTitle}>{item.nombre_producto}</Text>
       <Text style={styles.textPrecio}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
+      <Text style={styles.textPrecio}>Cantidad: <Text style={styles.textDentro}>{item.cantidad}</Text></Text>
       <TouchableOpacity onPress={() => onPress(item.id_libro)} style={styles.buton}>
         <Text>Ver mas</Text>
       </TouchableOpacity>

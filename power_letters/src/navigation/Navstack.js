@@ -13,9 +13,9 @@ const Stack = createStackNavigator();
 
 const  NavStack = ({logueado, setLogueado,libroId}) =>  {
   return(
-    <Stack.Navigator>
+    <Stack.Navigator> 
       
-      <Stack.Screen
+      <Stack.Screen 
         name='Login'
         options={{
           headerShown: false,

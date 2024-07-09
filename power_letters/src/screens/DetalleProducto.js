@@ -29,7 +29,7 @@ const DetalleLibroScreen = ({ route }) => {
 
         const orderForm = new FormData();
         orderForm.append('idLibro', libroId);
-        orderForm.append('cantidad', cantidadSolicitada);
+        orderForm.append('cantidadLibro', cantidadSolicitada);
 
         const orderResponse = await fetchData(PEDIDO_API, 'createDetail', orderForm);
         if (orderResponse.status) {
