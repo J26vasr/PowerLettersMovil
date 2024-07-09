@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
 import LibroItem from '../components/Libros/ProductoCard';
 
+
 const ProductoScreen = () => {
 
   const [dataLibros, setDataLibros] = useState([]);
@@ -30,12 +31,12 @@ const ProductoScreen = () => {
     }
   }
   const handleLibrosPress = (libroId) => {
+    console.log("ID: ", libroId);
     if (!libroId) {
       alert('No se pudieron cargar los libros');
       return;
     }
-    console.log("No se pudo cargar los libros", libroId);
-    navigation.navigate('NavStack', { screens: 'DetalleL', params: { libroId } });
+    navigation.navigate('NavStack', { screen: 'DetalleL', params: { libroId } });
   }
   useEffect(() => {
     fillProducts();
@@ -45,10 +46,7 @@ const ProductoScreen = () => {
     <LibroItem item={item} onPress={handleLibrosPress} />
   );
 
-  const handleVerMas = (producto) => {
-    navigation.navigate('DetallesProducto', { producto });
-  };
-
+ 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>

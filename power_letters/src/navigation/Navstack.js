@@ -11,9 +11,20 @@ import DetallesProductoScreen from '../screens/DetalleProducto';
 const Stack = createStackNavigator();
 
 
-const  NavStack = ({logueado, setLogueado, LibroId}) =>  {
+const  NavStack = ({logueado, setLogueado,libroId}) =>  {
   return(
-    <Stack.Navigator initialRouteName='Login'>
+    <Stack.Navigator>
+      
+      <Stack.Screen
+        name='Login'
+        options={{
+          headerShown: false,
+        }}
+        >
+        {props => <LoginScreen {...props} setLogueado={setLogueado} logueado={logueado} />}
+        
+      </Stack.Screen>
+      
       <Stack.Screen
         name='Splash'
         component={SplashScreen}
@@ -31,27 +42,15 @@ const  NavStack = ({logueado, setLogueado, LibroId}) =>  {
         {props => <SignUp {...props} setLogueado={setLogueado} logueado={logueado} />}
         
       </Stack.Screen>
-
-      <Stack.Screen
-        name='Login'
-        options={{
-          headerShown: false,
-        }}
-        >
-        {props => <LoginScreen {...props} setLogueado={setLogueado} logueado={logueado} />}
-        
-      </Stack.Screen>
       
-
       <Stack.Screen
-        name='DetalleL'
-        component={DetallesProductoScreen}
+        name="DetalleL"
         options={{
           headerShown: false,
         }}
-        
-      />
-      {props => <DetallesProductoScreen {...props} LibroId={LibroId} />}
+      >
+        {props => <DetallesProductoScreen {...props} libroId={libroId} />}
+      </Stack.Screen>
         
 
     </Stack.Navigator>

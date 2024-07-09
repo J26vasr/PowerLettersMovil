@@ -13,14 +13,14 @@ import ProductoScreen from '../screens/Libros';
 import CarritoScreen from '../screens/CarritoScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import HistorialScreen from '../screens/HistorialScreen';
-import NavStack from '../navigation/NavStack';
+import NavStack from './NavStack';
  
 const Stack = createStackNavigator();
 // Navegador Bottom Tabs Navigator
 const Tab = createBottomTabNavigator();
 
 
-export default function BottomTab({logueado, setlogueado, LibroId}) {
+export default function BottomTab({logueado, setlogueado}) {
 
   return (
     

@@ -24,7 +24,7 @@ export default function ProductoCard({ item, onPress
       <Text style={styles.text}>{item.id_libro}</Text>
       <Text style={styles.textTitle}>{item.titulo_libro}</Text>
       <Text style={styles.textTitle}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
-      <TouchableOpacity onPress={onPress} style={styles.buton}>
+      <TouchableOpacity onPress={() => onPress(item.id_libro)} style={styles.buton}>
         <Text>Ver mas</Text>
       </TouchableOpacity>
     </View>

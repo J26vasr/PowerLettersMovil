@@ -3,17 +3,17 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import { Ionicons } from '@expo/vector-icons';
 import CarritoScreen from './CarritoScreen'; // Importa la pantalla CarritoScreen
 
-const DetallesProductoScreen = ({ route, navigation }) => {
-  const { title, description, image } = route.params.producto;
+const DetallesProductoScreen = ({ route}) => {
+  const{libroId } = route.params || {};
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.backButton} >
         <Ionicons name="arrow-back" size={24} color="#000" />
       </TouchableOpacity>
-      <Image source={{ uri: image }} style={styles.image} />
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Image source={{ uri: '../img/libroSS.png' }} style={styles.image} />
+      <Text style={styles.title}>Titulo</Text>
+      <Text style={styles.description}>description</Text>
       <View style={styles.detailsContainer}>
         <View style={styles.detailsRow}>
           <Text style={styles.detailsLabel}>Titulo:</Text>
