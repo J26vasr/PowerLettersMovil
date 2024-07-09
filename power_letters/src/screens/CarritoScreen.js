@@ -14,6 +14,7 @@ const CarritoScreen = () => {
   
   const PEDIDO_API = 'services/public/pedido.php';
   const [error, setError] = useState(null);
+
   const fillProducts = async () => {
     try {
       const data = await fetchData(PEDIDO_API, 'readDetail');

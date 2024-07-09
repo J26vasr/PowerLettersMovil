@@ -9,6 +9,7 @@ import * as Constantes from "../../utils/constantes";
 
 
 export default function CarritoCard({ item, onPress
+  
 }) {
 
   return (

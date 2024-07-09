@@ -1,6 +1,6 @@
 // DetalleLibroScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,Alert, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,Alert, TextInput, quantity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
 import DetalleProductoCard from '../components/Libros/DetalleLibro';
@@ -13,15 +13,20 @@ const DetalleLibroScreen = ({ route }) => {
   const LIBROS_API = 'services/public/libros.php';
   const PEDIDO_API = 'services/public/pedido.php';
 
+  const [quantity, setQuantity] = useState(1);
   
-
-
+ 
   const handleAddToCart = async (libroId) => {
     try {
         const cantidadSolicitada = 1; // Assuming a quantity of 1 for this example
         const updateForm = new FormData();
         updateForm.append('idLibro', libroId);
-        updateForm.append('cantidad', cantidadSolicitada);
+        updateForm.append('cantidad', quantity);
+
+        if(quantity <=0){
+          Alert.alert("La cantidad no puede ser igual o menor a 0");
+          return;
+        }
 
         const updateResponse = await fetchData(LIBROS_API, 'updateExistencias', updateForm);
         if (!updateResponse.status) {
@@ -32,7 +37,7 @@ const DetalleLibroScreen = ({ route }) => {
 
         const orderForm = new FormData();
         orderForm.append('idLibro', libroId);
-        orderForm.append('cantidadLibro', cantidadSolicitada);
+        orderForm.append('cantidadLibro', quantity);
 
         const orderResponse = await fetchData(PEDIDO_API, 'createDetail', orderForm);
         if (orderResponse.status) {
@@ -87,18 +92,40 @@ const DetalleLibroScreen = ({ route }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      
       <DetalleProductoCard item={dataLibro} onPress={handleAddToCart} />
+      
+      <View style={styles.quantityContainer}>
+          <Text>Cantidad a comprar:</Text>
+          <TextInput style={styles.quantityInput}
+          keyboardType="numeric"
+          value= {String(quantity)}
+          onChangeText={(text)=> setQuantity(Number(text))}
+          />
+
+
+        </View>
       
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+
   container: {
     flexGrow: 1,
     padding: 42,
     backgroundColor: '#F8F9FA',
   },
+  
+  quantityContainer: {
+    height:30,
+    width:280,
+    marginBottom: 15,
+    backgroundColor: '#C9C9C9',
+    marginTop: 90,
+  },
+
   
 });
 

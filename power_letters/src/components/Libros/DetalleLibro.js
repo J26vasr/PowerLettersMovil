@@ -4,11 +4,8 @@ import * as Constantes from "../../utils/constantes";
 
 export default function DetalleProductoCard({ item, onPress }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-
   
-  const [email, setEmail] = useState('');
-
+  
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentImageIndex(prevIndex => (prevIndex + 1) % images.length);
@@ -52,14 +49,7 @@ export default function DetalleProductoCard({ item, onPress }) {
         <Text style={styles.detailsLabel}>Género: <Text style={styles.detailsValue}>{item.nombre_genero}</Text></Text>
         <Text style={styles.detailsLabel}>Existencias: <Text style={styles.detailsValue}>{item.existencias}</Text></Text>
 
-        <TextInput
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
+        
 
 
       </View>
@@ -72,14 +62,6 @@ export default function DetalleProductoCard({ item, onPress }) {
 
 
 const styles = StyleSheet.create({
-
-  
-  input: {
-    height:30,
-    marginBottom: 15,
-    backgroundColor: '#C9C9C9',
-    marginTop: 90,
-  },
 
   imgFondo: {
     marginTop: 20,
