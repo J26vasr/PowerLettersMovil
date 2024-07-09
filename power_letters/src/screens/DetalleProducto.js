@@ -1,6 +1,6 @@
 // DetalleLibroScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,Alert  } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image,Alert, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
 import DetalleProductoCard from '../components/Libros/DetalleLibro';
@@ -12,6 +12,9 @@ const DetalleLibroScreen = ({ route }) => {
   const [error, setError] = useState(null);
   const LIBROS_API = 'services/public/libros.php';
   const PEDIDO_API = 'services/public/pedido.php';
+
+  
+
 
   const handleAddToCart = async (libroId) => {
     try {
@@ -85,6 +88,7 @@ const DetalleLibroScreen = ({ route }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <DetalleProductoCard item={dataLibro} onPress={handleAddToCart} />
+      
     </ScrollView>
   );
 };
@@ -95,6 +99,7 @@ const styles = StyleSheet.create({
     padding: 42,
     backgroundColor: '#F8F9FA',
   },
+  
 });
 
 export default DetalleLibroScreen;

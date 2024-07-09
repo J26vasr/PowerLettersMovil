@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput,
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
-import LibroItem from '../components/Libros/ProductoCard';
+import LibroItem from '../components/Libros/CarritoCard';
 
 
 const CarritoScreen = () => {

@@ -5,8 +5,9 @@ import * as Constantes from "../../utils/constantes";
 export default function DetalleProductoCard({ item, onPress }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const [email, setEmail] = useState('');
 
+  
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -18,27 +19,27 @@ export default function DetalleProductoCard({ item, onPress }) {
 
   const images = [
     'https://static.vecteezy.com/system/resources/previews/013/751/768/non_2x/abstract-rough-gradient-background-black-blue-white-design-templates-free-photo.jpg',
-    
+
   ];
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imagenF}>
-      <Image
+        <Image
 
           source={{ uri: images[currentImageIndex] }}
           style={styles.imgFondo}
 
         />
-        
+
       </View>
-      
+
       <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
-            style={styles.image}
-            resizeMode="contain"
-          />
-        </View>
+        <Image
+          source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
 
 
       <Text style={styles.title}>{item.titulo_libro}</Text>
@@ -50,7 +51,15 @@ export default function DetalleProductoCard({ item, onPress }) {
         <Text style={styles.detailsLabel}>Editorial: <Text style={styles.detailsValue}>{item.nombre_editorial}</Text></Text>
         <Text style={styles.detailsLabel}>Género: <Text style={styles.detailsValue}>{item.nombre_genero}</Text></Text>
         <Text style={styles.detailsLabel}>Existencias: <Text style={styles.detailsValue}>{item.existencias}</Text></Text>
-       
+
+        <TextInput
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
 
       </View>
@@ -63,15 +72,17 @@ export default function DetalleProductoCard({ item, onPress }) {
 
 
 const styles = StyleSheet.create({
+
   
   input: {
+    height:30,
     marginBottom: 15,
-    backgroundColor: 'white',
-    
+    backgroundColor: '#C9C9C9',
+    marginTop: 90,
   },
 
-  imgFondo:{
-    marginTop:20,
+  imgFondo: {
+    marginTop: 20,
     width: '100%',
     height: 500,
     borderRadius: 15,
@@ -147,6 +158,7 @@ const styles = StyleSheet.create({
   },
 
   addButton: {
+    marginTop: 80,
     backgroundColor: 'black',
     borderRadius: 10,
     paddingVertical: 15,
