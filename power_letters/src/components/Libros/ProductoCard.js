@@ -21,9 +21,8 @@ export default function ProductoCard({ item, onPress
           resizeMode="contain" // Ajustar la imagen al contenedor
         />
       </View>
-      <Text style={styles.text}>{item.id_libro}</Text>
       <Text style={styles.textTitle}>{item.titulo_libro}</Text>
-      <Text style={styles.textTitle}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
+      <Text style={styles.textPrecio}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
       <TouchableOpacity onPress={() => onPress(item.id_libro)} style={styles.buton}>
         <Text>Ver mas</Text>
       </TouchableOpacity>
@@ -43,6 +42,21 @@ const styles = StyleSheet.create({
     height: 260,
     borderRadius: 20,
     marginBottom: 15,
+  },
+  textPrecio:{
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+    color: '#333',
+
+  },
+  textTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+    color: '#333',
   },
   imageContainer: {
     alignItems: 'center', // Centrar imagen horizontalmente
