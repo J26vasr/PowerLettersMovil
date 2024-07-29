@@ -66,8 +66,6 @@ const CarritoScreen = () => {
   );
 };
 
-
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
