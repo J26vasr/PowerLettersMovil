@@ -1,177 +1,410 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+  ImageBackground,
+  Image,
+  Alert,
+} from "react-native";
+import {
+  TextInput,
+  Button,
+  PaperProvider,
+  Card,
+  Avatar,
+} from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import RNPickerSelect from "react-native-picker-select";
+import * as ImagePicker from "expo-image-picker";
+import fetchData from '../../src/api/components';
 
+//Constante para manejar el alto de la pantalla
+const windowHeight = Dimensions.get("window").height;
 
-const SignUp = ({logueado, setLogueado}) => {
-  const [name, setName] = useState('');
-  const [lasname, setLastName] = useState('');
-  const [dui, setDui] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [birth, setBirth] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
- 
+const RegisterScreen = () => {
+  //Url de la api
+  const USER_API =  'services/public/usuario.php';
+  //Constantes para el manejo de datos
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [dui, setDUI] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState(new Date());
+  const [telefono, setTelefono] = useState("");
+  const [clave, setClave] = useState("");
+  const [image, setImage] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertType, setAlertType] = useState(1);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertCallback, setAlertCallback] = useState(null);
+  const [url, setUrl] = useState('');
+
+  //Constante de navegación entre pantallas
   const navigation = useNavigation();
 
-  const handleRegister = () => {
-    console.log('Nombre:', name);
-    console.log('Apellido:', lasname);
-    console.log('DUI:', dui);
-    console.log('Correo:', email);
-    console.log('Telefono:', phone);
-    console.log('Direccion:', address);
-    console.log('Nacimiento:', birth);
-    console.log('Contraseña:', password);
+  //Metodo para manejar el registro de usuarios
+  const handleRegister = async () => {
+    try {
+      if (
+        !nombre ||
+        !apellido ||
+        !correo ||
+        !direccion ||
+        !dui ||
+        !telefono ||
+        !fechaNacimiento ||
+        !genero ||
+        !clave
+      ) {
+        setAlertType(2);
+        setAlertMessage(
+          `Campos requeridos, Por favor, complete todos los campos.`
+        );
+        setAlertCallback(null);
+        setAlertVisible(true);
+        return;
+      } else {
+        const formData = new FormData();
+        formData.append("nombre_usuario", nombre);
+        formData.append("apellido_usuario", apellido);
+        formData.append("correo_usuario", correo);
+        formData.append("direccion_usuario", direccion);
+        formData.append("dui_usuario", dui);
+        //Manejo de insertar fecha en la base de datos
+        formData.append("nacimiento_usuario", fechaNacimiento.toISOString().split('T')[0]);
+        formData.append("telefono_usuario", telefono);
+        formData.append("clave_usuario", clave);
+        formData.append("imagen", Img);
+        //Manejo de insertar imagen en la base de datos
+        if (image) {
+          const uriParts = image.split('.');
+          const fileType = uriParts[uriParts.length - 1];
+          formData.append("imagenRegistro", {
+            uri: image,
+            name: `photo.${fileType}`,
+            type: `image/${fileType}`,
+          });
+        }
+
+        //Petición a la api para insertar un usuario
+        const response = await fetchData(USUARIO_API, "signUpMovli", formData);
+
+        if (response.status) {
+          setAlertType(1);
+          setAlertMessage(`${response.message}`);
+          setAlertCallback(null);
+          setAlertVisible(true);
+          setUrl('LoginScreen');
+        } else {
+          setAlertType(2);
+          setAlertMessage(`Error: ${response.error}`);
+          setAlertCallback(null);
+          setAlertVisible(true);
+          setUrl(null);
+        }
+      }
+    } catch (error) {
+      setAlertType(2);
+      setAlertMessage(`Error: ${error.message}`);
+      setAlertCallback(null);
+      setAlertVisible(true);
+      setUrl(null);
+    }
   };
 
-  const handleLoginRedirect = () => {
-    setLogueado(!logueado);
+
+  //Constante para ocultar la visibilidad de la alerta
+  const handleAlertClose = () => {
+    setAlertVisible(false);
+    if (alertCallback) alertCallback();
   };
 
+  //Metodo para cambiar fecha
+  const onDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setFechaNacimiento(selectedDate);
+    }
+  };
+
+  //Metodo para abrir la galeria y seleccionar la imagen
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Se requieren permisos para acceder a la galería.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.titleContainer}>
-        <Image source={require('../img/registro.jpg')} style={styles.logo} />
-        <Text style={styles.title}>Registro</Text>
-      </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Nombre"
-        onChangeText={text => setName(text)}
-        value={name}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Apellido"
-        onChangeText={text => setLastName(text)}
-        value={lasname}
-      />
-       <TextInput
-        style={styles.input}
-        placeholder="DUI"
-        onChangeText={text => setDui(text)}
-        value={dui}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Correo"
-        onChangeText={text => setEmail(text)}
-        value={email}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Teléfono"
-        onChangeText={text => setPhone(text)}
-        value={phone}
-        keyboardType="phone-pad"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Dirección"
-        onChangeText={text => setAddress(text)}
-        value={address}
-        secureTextEntry={true}
-      />
-       <TextInput
-        style={styles.input}
-        placeholder="Fecha de nacimiento"
-        onChangeText={text => setBirth(text)}
-        value={birth}
-        secureTextEntry={true}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry={true}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Repetir contraseña"
-        onChangeText={text => setPassword2(text)}
-        value={password2}
-        secureTextEntry={true}
-      />
+    <PaperProvider>
       
-     
-      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleLoginRedirect}>
-        <Text style={styles.loginRedirectText}>¿Ya tienes cuenta? Inicia sesión</Text>
-      </TouchableOpacity>
-    </ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.container}>
+          <Card style={styles.profileCard}>
+            <Card.Content>
+              <View style={styles.inputContainer}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.label}>Nombres del cliente:</Text>
+                  <View style={styles.rowContent}>
+                    <AntDesign name="user" size={24} />
+                    <TextInput
+                      style={styles.infoText}
+                      value={nombre}
+                      onChangeText={setNombre}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.label}>Apellidos del cliente:</Text>
+                  <View style={styles.rowContent}>
+                    <AntDesign name="user" size={24} />
+                    <TextInput
+                      style={styles.infoText}
+                      value={apellido}
+                      onChangeText={setApellido}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.label}>Correo electrónico:</Text>
+                  <View style={styles.rowContent}>
+                    <AntDesign name="mail" size={24} />
+                    <TextInput
+                      style={styles.infoText}
+                      value={correo}
+                      onChangeText={setCorreo}
+                      keyboardType="email-address"
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.label}>Clave del cliente:</Text>
+                  <View style={styles.rowContent}>
+                    <Entypo name="lock" size={24} />
+                    <TextInput
+                      style={styles.infoText}
+                      value={clave}
+                      onChangeText={setClave}
+                      secureTextEntry={true}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.inputContainer}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.label}>Dui del cliente:</Text>
+                  <View style={styles.rowContent}>
+                    <AntDesign name="idcard" size={24} />
+                    <TextInput
+                      style={styles.infoText}
+                      value={dui}
+                      onChangeText={setDUI}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.fila}>
+                <View style={[styles.inputContainer, { flex: 1 }]}>
+                  <View style={styles.infoRow}>
+                    <Text style={styles.label}>Número de teléfono:</Text>
+                    <View style={styles.rowContent}>
+                      <AntDesign name="phone" size={24} />
+                      <TextInput
+                        style={styles.infoText}
+                        value={telefono}
+                        onChangeText={setTelefono}
+                        keyboardType="phone-pad"
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View style={[styles.inputContainer, { flex: 1 }]}>
+                  <View style={styles.infoRow}>
+                    <Text style={styles.label}>Fecha de nacimiento:</Text>
+                    <View style={styles.rowContent}>
+                      <Entypo name="calendar" size={24} />
+                      <TouchableOpacity onPress={() => setNacimiento(true)}>
+                        <Text style={styles.infoText}>
+                          {fechaNacimiento.toLocaleDateString()}
+                        </Text>
+                      </TouchableOpacity>
+                      {showDatePicker && (
+                        <DateTimePicker
+                          value={fechaNacimiento}
+                          mode="date"
+                          display="default"
+                          onChange={onDateChange}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </View>
+              </View>
+              
+              <View style={styles.inputContainer}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.label}>Dirección:</Text>
+                  <View style={styles.rowContent}>
+                    <Entypo name="map" size={24} />
+                    <TextInput
+                      style={styles.infoText}
+                      value={direccion}
+                      onChangeText={setDireccion}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={styles.avatarContainer}>
+                <TouchableOpacity onPress={pickImage}>
+                  {image ? (
+                    <Image source={{ uri: image }} style={styles.avatarImage} />
+                  ) : (
+                    <Avatar.Image
+                      
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+              <Button
+                style={styles.button}
+                mode="contained"
+                onPress={handleRegister}
+              >
+                Registrarse
+              </Button>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
+                <Text style={styles.loginText}>
+                  ¿Ya tienes cuenta? Inicia sesión
+                </Text>
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+        </View>
+      </ScrollView>
+      <AlertComponent
+        visible={alertVisible}
+        type={alertType}
+        message={alertMessage}
+        onClose={handleAlertClose}
+        url={url}
+      />
+    </PaperProvider>
   );
 };
 
+export default RegisterScreen;
+
 const styles = StyleSheet.create({
-  container: {
+  scrollViewContent: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 70,
   },
-  titleContainer: {
-    alignItems: 'center',
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    marginBottom: windowHeight * 0.15,
+    paddingTop: 50,
+  },
+  profileCard: {
+    width: "100%",
+    marginTop: 10,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#B7DABE",
+    paddingTop: 20,
+    paddingBottom: 40,
+  },
+  inputContainer: {
     marginBottom: 20,
   },
-  logo: {
-    width: 250,
-    height: 200,
-    marginBottom: 10,
+  label: {
+    fontSize: 14,
+    color: "gray",
+    marginBottom: 5,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  input: {
-    width: '80%',
-    backgroundColor: '#f0f0f0',
-    height: 50,
+  infoRow: {
+    padding: 12,
+    margin: 2,
     borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 15,
+    backgroundColor: "white",
+    width: "100%",
+    elevation: 2,
   },
-  addressContainer: {
-    width: '80%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
+  rowContent: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  addressInput: {
-    flex: 1,
-    backgroundColor: '#f0f0f0',
-    height: 50,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginRight: 10,
-  },
-  registerButton: {
-    backgroundColor: '#3046BC',
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  loginRedirectText: {
-    color: '#007bff',
+  infoText: {
+    marginLeft: 10,
     fontSize: 16,
-    textDecorationLine: 'underline',
+    backgroundColor: "transparent",
+    height: 40,
+    borderWidth: 0,
+    flex: 1,
+  },
+  pickerText: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    color: "black",
+    flex: 1,
+  },
+  fila: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  button: {
+    width: "100%",
+    paddingVertical: 10,
+    marginTop: 10,
+    backgroundColor: "#38A34C",
+  },
+  loginText: {
+    marginTop: 20,
+    color: "black",
+  },
+  avatarContainer: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  avatarImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  backgroundImage: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
 });
-
-export default SignUp;
