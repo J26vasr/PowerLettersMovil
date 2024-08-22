@@ -8,7 +8,6 @@ import {
   ScrollView,
   ImageBackground,
   Image,
-  Alert,
 } from "react-native";
 import {
   TextInput,
@@ -36,15 +35,11 @@ const RegisterScreen = () => {
   const [correo, setCorreo] = useState("");
   const [direccion, setDireccion] = useState("");
   const [dui, setDUI] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState(new Date());
+  const [fechaNacimiento, setNacimiento] = useState(new Date());
   const [telefono, setTelefono] = useState("");
   const [clave, setClave] = useState("");
   const [image, setImage] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [alertVisible, setAlertVisible] = useState(false);
-  const [alertType, setAlertType] = useState(1);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertCallback, setAlertCallback] = useState(null);
   const [url, setUrl] = useState('');
 
   //Constante de navegación entre pantallas
@@ -64,12 +59,6 @@ const RegisterScreen = () => {
         !genero ||
         !clave
       ) {
-        setAlertType(2);
-        setAlertMessage(
-          `Campos requeridos, Por favor, complete todos los campos.`
-        );
-        setAlertCallback(null);
-        setAlertVisible(true);
         return;
       } else {
         const formData = new FormData();
@@ -97,41 +86,20 @@ const RegisterScreen = () => {
         //Petición a la api para insertar un usuario
         const response = await fetchData(USUARIO_API, "signUpMovli", formData);
 
-        if (response.status) {
-          setAlertType(1);
-          setAlertMessage(`${response.message}`);
-          setAlertCallback(null);
-          setAlertVisible(true);
-          setUrl('LoginScreen');
-        } else {
-          setAlertType(2);
-          setAlertMessage(`Error: ${response.error}`);
-          setAlertCallback(null);
-          setAlertVisible(true);
-          setUrl(null);
-        }
       }
     } catch (error) {
-      setAlertType(2);
-      setAlertMessage(`Error: ${error.message}`);
-      setAlertCallback(null);
-      setAlertVisible(true);
+      
       setUrl(null);
     }
   };
 
 
-  //Constante para ocultar la visibilidad de la alerta
-  const handleAlertClose = () => {
-    setAlertVisible(false);
-    if (alertCallback) alertCallback();
-  };
 
   //Metodo para cambiar fecha
   const onDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      setFechaNacimiento(selectedDate);
+      setNacimiento(selectedDate);
     }
   };
 
@@ -309,13 +277,6 @@ const RegisterScreen = () => {
           </Card>
         </View>
       </ScrollView>
-      <AlertComponent
-        visible={alertVisible}
-        type={alertType}
-        message={alertMessage}
-        onClose={handleAlertClose}
-        url={url}
-      />
     </PaperProvider>
   );
 };
