@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import fetchData from '../api/components'; // Importar la función fetchData
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ setLogueado, logueado }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  //Url de la api
+  const USER_API = 'services/public/usuario.php';
+  //Función para cerrar sesión
+  const handleLogOut = async () => {
+    try {
+      const data = await fetchData(USER_API, "logOut");
+      if (data.status) {
+        setLogueado(false);
+      } else {
+        Alert.alert("Error sesión", data.error);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      Alert.alert("Error sesión", error);
+    }
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -24,6 +42,9 @@ const HomeScreen = () => {
 
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Text style={styles.subtitle}>Bienvenido</Text>
+      <TouchableOpacity style={styles.featuredButton} onPress={handleLogOut}>
+        <Text style={styles.featuredButtonText}>Cerrar sesión</Text>
+      </TouchableOpacity>
       <View style={styles.carouselContainer}>
         <Image
           source={{ uri: images[currentImageIndex] }}
@@ -101,7 +122,7 @@ const styles = StyleSheet.create({
   },
 
   banner: {
-    marginTop:20,
+    marginTop: 20,
     width: '100%',
     height: 500,
     borderRadius: 15,

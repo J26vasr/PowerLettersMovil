@@ -4,9 +4,12 @@ import { Ionicons } from '@expo/vector-icons'; // Importar Ionicons
 import fetchData from '../api/components'; // Importar la función fetchData
 import * as Constantes from '../utils/constantes'; // Importar constantes, asumiendo que tienes IP en un archivo de constantes
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setLogueado, logueado }) => {
+  
+  //Url de la api
+  const USER_API =  'services/public/usuario.php';
   const ip = Constantes.IP; // Definir IP de la API
-  const [username, setCorreo] = useState(''); // Estado para el nombre de usuario
+  const [correo, setCorreo] = useState(''); // Estado para el nombre de usuario
   const [password, setClave] = useState(''); // Estado para la contraseña
   const [showPassword, setShowPassword] = useState(false); // Estado para alternar visibilidad de la contraseña
   const animatedValue = new Animated.Value(0); // Estado para la animación del logo
@@ -36,40 +39,34 @@ const LoginScreen = ({ navigation }) => {
     inputRange: [0, 0.5, 1],
     outputRange: [0, 20, 0],
   });
+
+  // Manejo de inicio de sesión
   const handleLogin = async () => {
-    if (!username.trim() || !password.trim()) {
-      Alert.alert('Error', 'Por favor, complete los campos de usuario y contraseña');
+    // Verifica que los campos no estén vacíos
+    if (!correo || !password) {
+      Alert.alert(`Campos requeridos, Por favor, complete todos los campos.`);
       return;
-    }
-  
-    const formData = new FormData();
-    formData.append('correo_usuario', username);
-    formData.append('clave_usuario', password);
-  
-    const url = `${ip}/NewPowerLetters/api/services/public/usuario.php?action=logIn`;
-    console.log('URL solicitada:', url);
-  
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData,
-      });
-  
-      const data = await response.json();
-  
-      if (data.status) {
-        setCorreo('');
-        setClave('');
-        navigation.navigate('Home');
-      } else {
-        Alert.alert('Error de inicio de sesión', data.error);
+    } else {
+      // Creación del formulario para la petición
+      const formData = new FormData();
+      formData.append('correo_usuario', correo);
+      formData.append('clave_usuario', password);
+      try {
+        // Realización de la petición de inicio de sesión
+        const data = await fetchData(USER_API, 'logIn', formData);
+        if (data.status) {
+          Alert.alert(`${data.message}`);
+          setLogueado(!logueado);
+        } else {
+          Alert.alert(`${data.error} ${data.exception}`);
+          console.log(data.error);
+        }
+      } catch (error) {
+        Alert.alert(`${error}`);
+        console.log('Error: ', error);
       }
-    } catch (error) {
-      console.error('Error en el inicio de sesión:', error);
-      Alert.alert('Error de inicio de sesión', 'Ocurrió un error al iniciar sesión. Por favor, inténtalo de nuevo.');
     }
   };
-  
   // Función para redirigir a la pantalla de registro
   const handleRegisterRedirect = () => {
     navigation.navigate('Register');
@@ -94,7 +91,7 @@ const LoginScreen = ({ navigation }) => {
         style={styles.input}
         placeholder="Correo de usuario"
         onChangeText={text => setCorreo(text)}
-        value={username}
+        value={correo}
       />
       {/* Campo de entrada para la contraseña con alternar visibilidad */}
       <View style={styles.passwordContainer}>

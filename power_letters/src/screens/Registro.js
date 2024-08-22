@@ -84,7 +84,7 @@ const RegisterScreen = () => {
         }
 
         //Petición a la api para insertar un usuario
-        const response = await fetchData(USUARIO_API, "signUpMovli", formData);
+        const response = await fetchData(USER_API, "signUpMovli", formData);
 
       }
     } catch (error) {
