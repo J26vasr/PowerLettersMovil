@@ -7,9 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 const PerfilScreen = () => {
   const navigation = useNavigation();
 
-  const abrirFacebook = () => {
-    Linking.openURL('https://www.facebook.com/Comodos.sv');
-  };
  // Navegacion entre laspantallas
   const handleMiPerfilPress = () => {
     navigation.navigate('MiPerfil');
@@ -21,10 +18,13 @@ const PerfilScreen = () => {
 
   return (
      //Estilo del perfil dviddido en distintas opciones
-    <ScrollView contentContainerStyle={styles.container}>
+     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.Fondo}>
+      
+      </View>
       <View style={styles.profileContainer}>
         <Image
-          source={{ uri: 'https://i.pinimg.com/564x/c7/f9/fe/c7f9fe2e978b08473031c87f6fe657c2.jpg' }}
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6073/6073873.png' }}
           style={styles.profileImage}
         />
         <Text style={styles.profileName}>Bakugo</Text>
@@ -34,27 +34,14 @@ const PerfilScreen = () => {
         <TouchableOpacity onPress={handleMiPerfilPress}>
           <MenuItem title="Mi perfil" icon="person-outline" />
         </TouchableOpacity>
-        <MenuItem title="Historial" icon="settings-outline" />
         <TouchableOpacity onPress={handleTerminosCondicionesPress}>
           <MenuItem title="Terminos y condiciones" icon="document-text-outline" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.socialContainer}>
-        <Text style={styles.socialTitle}>Nuestras redes sociales</Text>
-        <View style={styles.socialIcons}>
-          <TouchableOpacity onPress={abrirFacebook}>
-            <FontAwesome name="facebook" size={30} color="#000000" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesome name="instagram" size={30} color="#000000" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesome name="whatsapp" size={30} color="#000000" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      
     </ScrollView>
+    
   );
 };
 
@@ -68,27 +55,40 @@ const MenuItem = ({ title, icon }) => (
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#f0f4f7',
+    backgroundColor: '#c733ff ',
     paddingVertical: 70,
+    borderRadius:200,
   },
+  Fondo: {
+      marginTop: -450,
+      display: 'flex',
+      backgroundColor:'#9333ff',
+      justifyContent: 'absolute',
+      alignItems: 'center',
+      height: 700,
+      width:420,
+      borderRadius:500,
+  },
+ 
   profileContainer: {
     alignItems: 'center',
     marginBottom: 20,
-    paddingVertical: 30,
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
     marginHorizontal: 20,
     elevation: 5,
+    position: 'relative', // Para que el contenido se superponga al círculo
+    zIndex: 1, // Asegura que esté por encima del círculo
   },
   profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 120,
+    height: 120,
+    borderRadius: 60, // Mitad del ancho/alto para hacer un círculo
     marginBottom: 10,
+    marginTop: -260
   },
   profileName: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginTop: 20
   },
   profileSubtitle: {
     fontSize: 14,
