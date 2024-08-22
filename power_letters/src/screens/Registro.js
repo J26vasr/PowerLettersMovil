@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Image,
+  Alert
 } from "react-native";
 import {
   TextInput,
@@ -28,7 +29,7 @@ const windowHeight = Dimensions.get("window").height;
 
 const RegisterScreen = () => {
   //Url de la api
-  const USER_API =  'services/public/usuario.php';
+  const USER_API = 'services/public/usuario.php';
   //Constantes para el manejo de datos
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -70,12 +71,11 @@ const RegisterScreen = () => {
         formData.append("nacimiento_usuario", fechaNacimiento.toISOString().split('T')[0]);
         formData.append("telefono_usuario", telefono);
         formData.append("clave_usuario", clave);
-        formData.append("imagen", Img);
         //Manejo de insertar imagen en la base de datos
         if (image) {
           const uriParts = image.split('.');
           const fileType = uriParts[uriParts.length - 1];
-          formData.append("imagenRegistro", {
+          formData.append("imagen", {
             uri: image,
             name: `photo.${fileType}`,
             type: `image/${fileType}`,
@@ -83,16 +83,27 @@ const RegisterScreen = () => {
         }
 
         //Petición a la api para insertar un usuario
-        const response = await fetchData(USER_API, "signUpMovli", formData);
-
+        const response = await fetchData(USER_API, "signUpMovil", formData);
+        if (response.status) {
+          Alert.alert(`${response.message}`);
+          console.log(`${response.message}`);
+          handleLogin();
+        } else {
+          Alert.alert(`${response.error} ${response.exception}`);
+          console.log(`Error: ${response.error} ${response.exception}`);
+        }
       }
     } catch (error) {
-      
-      setUrl(null);
+      Alert.alert(`Error: ${error.message}`);
+      console.log(`Error: ${error.message}`);
     }
   };
 
 
+  // Función para redirigir a la pantalla de registro
+  const handleLogin = () => {
+    navigation.navigate('Login');
+  };
 
   //Metodo para cambiar fecha
   const onDateChange = (event, selectedDate) => {
@@ -124,7 +135,7 @@ const RegisterScreen = () => {
 
   return (
     <PaperProvider>
-      
+
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.container}>
           <Card style={styles.profileCard}>
@@ -216,7 +227,7 @@ const RegisterScreen = () => {
                     <Text style={styles.label}>Fecha de nacimiento:</Text>
                     <View style={styles.rowContent}>
                       <Entypo name="calendar" size={24} />
-                      <TouchableOpacity onPress={() => setNacimiento(true)}>
+                      <TouchableOpacity onPress={() => setShowDatePicker(true)}>
                         <Text style={styles.infoText}>
                           {fechaNacimiento.toLocaleDateString()}
                         </Text>
@@ -233,7 +244,7 @@ const RegisterScreen = () => {
                   </View>
                 </View>
               </View>
-              
+
               <View style={styles.inputContainer}>
                 <View style={styles.infoRow}>
                   <Text style={styles.label}>Dirección:</Text>
@@ -253,7 +264,7 @@ const RegisterScreen = () => {
                     <Image source={{ uri: image }} style={styles.avatarImage} />
                   ) : (
                     <Avatar.Image
-                      
+
                     />
                   )}
                 </TouchableOpacity>
@@ -266,7 +277,7 @@ const RegisterScreen = () => {
                 Registrarse
               </Button>
               <TouchableOpacity
-                onPress={() => navigation.navigate("LoginScreen")}
+                onPress={() => navigation.navigate("Login")}
               >
                 <Text style={styles.loginText}>
                   ¿Ya tienes cuenta? Inicia sesión
