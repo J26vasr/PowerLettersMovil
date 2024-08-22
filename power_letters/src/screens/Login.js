@@ -68,8 +68,8 @@ const LoginScreen = ({ navigation, setLogueado, logueado }) => {
     }
   };
   // Función para redirigir a la pantalla de registro
-  const handleRegisterRedirect = () => {
-    navigation.navigate('Register');
+  const handleRegister = () => {
+    navigation.navigate('Registro');
   };
 
   // Función para redirigir a la pantalla de recuperación de contraseña
@@ -111,7 +111,7 @@ const LoginScreen = ({ navigation, setLogueado, logueado }) => {
         <Text style={styles.buttonText}>Iniciar sesión</Text>
       </TouchableOpacity>
       {/* Enlace para redirigir a la pantalla de registro */}
-      <TouchableOpacity onPress={handleRegisterRedirect}>
+      <TouchableOpacity onPress={handleRegister}>
         <Text style={styles.registerLink}>¿No tienes cuenta? Crea una</Text>
       </TouchableOpacity>
       {/* Enlace para redirigir a la pantalla de recuperación de contraseña */}

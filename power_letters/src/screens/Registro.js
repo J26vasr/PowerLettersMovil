@@ -56,7 +56,6 @@ const RegisterScreen = () => {
         !dui ||
         !telefono ||
         !fechaNacimiento ||
-        !genero ||
         !clave
       ) {
         return;
