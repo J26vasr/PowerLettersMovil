@@ -8,7 +8,8 @@ import {
   ScrollView,
   ImageBackground,
   Image,
-  Alert
+  Alert,
+  Animated
 } from "react-native";
 import {
   TextInput,
@@ -137,12 +138,33 @@ const RegisterScreen = () => {
     <PaperProvider>
 
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.container}>
+        <View style={styles.img}>
+          <Text style={styles.textoLogin}>
+            Bienvenido al registro
+          </Text>
+          <Image
+            source={require('../img/imgRegistro.png')} // Asegúrate de que esta ruta sea correcta
+            style={styles.logo}
+          />
+
           <Card style={styles.profileCard}>
+            <Text style={styles.textoCamera}>
+              Selecciona una foto de perfil
+            </Text>
+            <View style={styles.avatarContainer}>
+              <TouchableOpacity onPress={pickImage} style={styles.touchableContainer}>
+                {image ? (
+                  <Image source={{ uri: image }} style={styles.avatarImage} />
+                ) : (
+                  <Avatar.Image style={styles.avatarImage} />
+                )}
+                <Entypo name="camera" size={40} style={styles.icono} />
+              </TouchableOpacity>
+            </View>
             <Card.Content>
               <View style={styles.inputContainer}>
                 <View style={styles.infoRow}>
-                  <Text style={styles.label}>Nombres del cliente:</Text>
+                  <Text style={styles.label}>Nombres:</Text>
                   <View style={styles.rowContent}>
                     <AntDesign name="user" size={24} />
                     <TextInput
@@ -155,7 +177,7 @@ const RegisterScreen = () => {
               </View>
               <View style={styles.inputContainer}>
                 <View style={styles.infoRow}>
-                  <Text style={styles.label}>Apellidos del cliente:</Text>
+                  <Text style={styles.label}>Apellidos:</Text>
                   <View style={styles.rowContent}>
                     <AntDesign name="user" size={24} />
                     <TextInput
@@ -168,7 +190,7 @@ const RegisterScreen = () => {
               </View>
               <View style={styles.inputContainer}>
                 <View style={styles.infoRow}>
-                  <Text style={styles.label}>Correo electrónico:</Text>
+                  <Text style={styles.label}>Correo:</Text>
                   <View style={styles.rowContent}>
                     <AntDesign name="mail" size={24} />
                     <TextInput
@@ -182,7 +204,7 @@ const RegisterScreen = () => {
               </View>
               <View style={styles.inputContainer}>
                 <View style={styles.infoRow}>
-                  <Text style={styles.label}>Clave del cliente:</Text>
+                  <Text style={styles.label}>Clave:</Text>
                   <View style={styles.rowContent}>
                     <Entypo name="lock" size={24} />
                     <TextInput
@@ -196,7 +218,7 @@ const RegisterScreen = () => {
               </View>
               <View style={styles.inputContainer}>
                 <View style={styles.infoRow}>
-                  <Text style={styles.label}>Dui del cliente:</Text>
+                  <Text style={styles.label}>Dui:</Text>
                   <View style={styles.rowContent}>
                     <AntDesign name="idcard" size={24} />
                     <TextInput
@@ -210,7 +232,7 @@ const RegisterScreen = () => {
               <View style={styles.fila}>
                 <View style={[styles.inputContainer, { flex: 1 }]}>
                   <View style={styles.infoRow}>
-                    <Text style={styles.label}>Número de teléfono:</Text>
+                    <Text style={styles.label}>Teléfono:</Text>
                     <View style={styles.rowContent}>
                       <AntDesign name="phone" size={24} />
                       <TextInput
@@ -222,6 +244,9 @@ const RegisterScreen = () => {
                     </View>
                   </View>
                 </View>
+              </View>
+
+              <View style={styles.fila}>
                 <View style={[styles.inputContainer, { flex: 1 }]}>
                   <View style={styles.infoRow}>
                     <Text style={styles.label}>Fecha de nacimiento:</Text>
@@ -258,44 +283,55 @@ const RegisterScreen = () => {
                   </View>
                 </View>
               </View>
-              <View style={styles.avatarContainer}>
-                <TouchableOpacity onPress={pickImage}>
-                  {image ? (
-                    <Image source={{ uri: image }} style={styles.avatarImage} />
-                  ) : (
-                    <Avatar.Image
 
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
               <Button
                 style={styles.button}
                 mode="contained"
                 onPress={handleRegister}
-              >
-                Registrarse
-              </Button>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Login")}
-              >
-                <Text style={styles.loginText}>
-                  ¿Ya tienes cuenta? Inicia sesión
+              ><Text style={styles.btnGuardar}>
+                  Guardar
                 </Text>
+              </Button>
+              <TouchableOpacity onPress={handleLogin}>
+                <Text style={styles.loginText}>Regresar al inicio de sesión</Text>
               </TouchableOpacity>
             </Card.Content>
           </Card>
         </View>
       </ScrollView>
-    </PaperProvider>
+    </PaperProvider >
   );
 };
 
 export default RegisterScreen;
 
 const styles = StyleSheet.create({
+  textoLogin: {
+    color: "black",
+    fontSize: 30,
+  },
+  textoCamera: {
+    color: "black",
+    fontSize: 15,
+    marginLeft: 70,
+  },
+
+  img: {
+    marginTop: 80,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginTop: 10,
+
+  },
   scrollViewContent: {
     flexGrow: 1,
+
+    backgroundColor: "#ffffff",
   },
   container: {
     flex: 1,
@@ -306,22 +342,24 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   profileCard: {
-    width: "100%",
+    width: 380,
     marginTop: 10,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: "#B7DABE",
+    backgroundColor: "#889cf4",
     paddingTop: 20,
     paddingBottom: 40,
   },
   inputContainer: {
     marginBottom: 20,
+    marginTop: 20,
   },
   label: {
     fontSize: 14,
     color: "gray",
     marginBottom: 5,
   },
+
   infoRow: {
     padding: 12,
     margin: 2,
@@ -356,26 +394,53 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     paddingVertical: 10,
-    marginTop: 10,
-    backgroundColor: "#38A34C",
+    marginTop: 20,
+    backgroundColor: "#2955e8",
   },
   loginText: {
     marginTop: 20,
     color: "black",
+    fontSize:15,
+    marginLeft:60,
+  },
+  btnGuardar: {
+    marginTop: 20,
+    color: "white",
   },
   avatarContainer: {
-    alignItems: "center",
-    marginVertical: 20,
+    width: 100, // Ajusta según sea necesario
+    height: 100, // Ajusta según sea necesario
+    marginLeft: 130,
+    marginTop: 10,
+    borderRadius: 10, // Para hacer un contenedor circular
+    overflow: 'hidden', // Para que el contenido no sobresalga del contenedor
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative', // Necesario para posicionar el icono
+  },
+  touchableContainer: {
+
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative', // Para que el icono se posicione relativo a este contenedor
+
   },
   avatarImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+
+    backgroundColor: "#3c64e9",
+    width: '100%',
+    height: '100%',
   },
-  backgroundImage: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
+  icono: {
+    position: 'absolute', // Para posicionar el icono sobre la imagen
+    bottom: 10, // Ajusta la posición vertical
+    right: 10, // Ajusta la posición horizontal
+    marginRight: 15,
+    top: 20,
+    borderRadius: 12, // Bordes redondeados para el fondo del icono
+    padding: 5, // Espaciado alrededor del icono
+    color: "white",
   },
 });
