@@ -80,22 +80,23 @@ const LoginScreen = ({ navigation, setLogueado, logueado }) => {
   return (
     <View style={styles.container}>
       {/* Logo animado */}
-      <Animated.Image
-        source={require('../img/libroSS.png')} // Asegúrate de que esta ruta sea correcta
+      <Animated.Image  
+        source={require('../img/imgLogin.png')} // Asegúrate de que esta ruta sea correcta
         style={[styles.logo, { transform: [{ translateY }] }]}
       />
       {/* Título de la pantalla */}
       <Text style={styles.title}>Inicio de sesión</Text>
       {/* Campo de entrada para el nombre de usuario */}
-      <TextInput
-        style={styles.input}
+      <TextInput  style={styles.input}
+      
         placeholder="Correo de usuario"
         onChangeText={text => setCorreo(text)}
         value={correo}
       />
       {/* Campo de entrada para la contraseña con alternar visibilidad */}
       <View style={styles.passwordContainer}>
-        <TextInput
+
+        <TextInput 
           style={{ flex: 1 }}
           placeholder="Contraseña"
           onChangeText={text => setClave(text)}
@@ -124,10 +125,11 @@ const LoginScreen = ({ navigation, setLogueado, logueado }) => {
 
 const styles = StyleSheet.create({
   container: {
+    
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'white',
   },
   title: {
     fontSize: 32,
@@ -135,12 +137,25 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
     color: 'black',
+    marginTop:30,
   },
+  
   input: {
-    marginBottom: 15,
-    backgroundColor: 'white',
+    padding: 12,
+    margin: 2,
+    borderRadius: 10,
+    backgroundColor: "white",
+    width: "100%",
+    elevation: 2,
   },
   passwordContainer: {
+    marginTop:10,
+    padding: 12,
+    margin: 2,
+    borderRadius: 10,
+    backgroundColor: "white",
+    width: "100%",
+    elevation: 2,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 15,
@@ -150,29 +165,35 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
-    padding: 10,
-    backgroundColor: '#6200ee',
+    padding: 15,
+    backgroundColor: '#2955e8',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 20,
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize:15,
+    
   },
   registerLink: {
     textAlign: 'center',
-    marginTop: 10,
-    color: '#6200ee',
+    marginTop: 15,
+    color: 'black',
+    fontSize:15,
   },
   forgotPasswordText: {
     textAlign: 'center',
-    marginTop: 10,
-    color: '#6200ee',
+    marginTop: 15,
+    color: 'black',
+    fontSize:15,
   },
   logo: {
     width: 250,
     height: 235,
     marginBottom: 20,
+    marginLeft:60,
+    
   },
 });
 

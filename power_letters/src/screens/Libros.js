@@ -6,19 +6,15 @@ import fetchData from '../api/components';
 import LibroItem from '../components/Libros/ProductoCard';
 
 const ProductoScreen = () => {
-  // Estados para manejar los datos de los libros, el texto de búsqueda, la cantidad de productos y los errores
   const [dataLibros, setDataLibros] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [quantityProducts, setQuantityProducts] = useState('');
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false); // Estado para el refresco
 
-  // Constante de navegación entre pantallas
   const navigation = useNavigation();
-
-  // URL de la API para obtener los libros
   const LIBROS_API = 'services/public/libros.php';
 
-  // Función asincrónica para llenar la lista de productos desde la API
   const fillProducts = async () => {
     try {
       const data = await fetchData(LIBROS_API, 'readAll');
@@ -34,7 +30,6 @@ const ProductoScreen = () => {
     }
   };
 
-  // Maneja la navegación al presionar un libro
   const handleLibrosPress = (libroId) => {
     console.log("ID: ", libroId);
     if (!libroId) {
@@ -44,17 +39,21 @@ const ProductoScreen = () => {
     navigation.navigate('NavStack', { screen: 'DetalleL', params: { libroId } });
   };
 
-  // Hook de efecto para llenar los productos cuando el componente se monta
   useEffect(() => {
     fillProducts();
   }, []);
 
-  // Función para renderizar cada item de la lista de libros
+  // Función para manejar el refresco
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fillProducts();
+    setRefreshing(false);
+  };
+
   const renderLibrosItem = ({ item }) => (
     <LibroItem item={item} onPress={handleLibrosPress} />
   );
 
-  // Cuerpo de las card
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.searchContainer}>
@@ -71,6 +70,9 @@ const ProductoScreen = () => {
         renderItem={renderLibrosItem}
         keyExtractor={(item) => item.id_libro}
         numColumns={2}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
       <View style={styles.grid}>
       </View>
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: '#F8F9FB',
-    paddingVertical: 60, // Reducido el espacio vertical
+    paddingVertical: 60,
     paddingHorizontal: 15,
   },
   searchContainer: {
