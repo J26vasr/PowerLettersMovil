@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import fetchData from '../api/components';
 import DetalleProductoCard from '../components/Libros/DetalleLibro';
 
-const DetalleLibroScreen = ({ route }) => {
+const DetalleLibroScreen = ({ route}) => {
   const { libroId } = route.params || {};
   const [dataLibro, setDataLibro] = useState(null);
   const navigation = useNavigation();
@@ -41,8 +41,8 @@ const DetalleLibroScreen = ({ route }) => {
 
         const orderResponse = await fetchData(PEDIDO_API, 'createDetail', orderForm);
         if (orderResponse.status) {
-            Alert.alert('Éxito', orderResponse.message, [
-                { text: 'OK', onPress: () => navigation.navigate('ButtomTab', { screen: 'Carrito' }) },
+            Alert.alert('Éxito', 'Producto añadido al carrito', [
+                { text: 'OK', onPress: () => navigation.navigate('Carrito' ) },
             ]);
         } else if (orderResponse.session) {
             Alert.alert('Sesión', orderResponse.error);
@@ -94,7 +94,6 @@ const DetalleLibroScreen = ({ route }) => {
     <ScrollView contentContainerStyle={styles.container}>
       
       <DetalleProductoCard item={dataLibro} onPress={handleAddToCart} />
-      
       <View style={styles.quantityContainer}>
           <Text>Cantidad a comprar:</Text>
           <TextInput style={styles.quantityInput}
@@ -105,7 +104,7 @@ const DetalleLibroScreen = ({ route }) => {
 
 
         </View>
-      
+        
     </ScrollView>
   );
 };
@@ -119,11 +118,13 @@ const styles = StyleSheet.create({
   },
   
   quantityContainer: {
-    height:30,
-    width:280,
-    marginBottom: 15,
-    backgroundColor: '#C9C9C9',
-    marginTop: 90,
+    padding: 12,
+    margin: 2,
+    borderRadius: 10,
+    backgroundColor: "white",
+    width: "100%",
+    elevation: 2,
+    marginTop:40,
   },
 
   

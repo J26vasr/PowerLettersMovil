@@ -3,32 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, TextInput 
 import * as Constantes from "../../utils/constantes";
 
 export default function DetalleProductoCard({ item, onPress }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentImageIndex(prevIndex => (prevIndex + 1) % images.length);
-    }, 5000);
 
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const images = [
-    'https://static.vecteezy.com/system/resources/previews/013/751/768/non_2x/abstract-rough-gradient-background-black-blue-white-design-templates-free-photo.jpg',
-
-  ];
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.imagenF}>
-        <Image
-
-          source={{ uri: images[currentImageIndex] }}
-          style={styles.imgFondo}
-
-        />
-
-      </View>
+      
 
       <View style={styles.imageContainer}>
         <Image
@@ -49,10 +27,14 @@ export default function DetalleProductoCard({ item, onPress }) {
         <Text style={styles.detailsLabel}>Género: <Text style={styles.detailsValue}>{item.nombre_genero}</Text></Text>
         <Text style={styles.detailsLabel}>Existencias: <Text style={styles.detailsValue}>{item.existencias}</Text></Text>
 
-        
+
+
+  
 
 
       </View>
+
+
       <TouchableOpacity style={styles.addButton} onPress={() => onPress(item.id_libro)}>
         <Text style={styles.addButtonText}>Añadir al carrito</Text>
       </TouchableOpacity>
@@ -63,19 +45,6 @@ export default function DetalleProductoCard({ item, onPress }) {
 
 const styles = StyleSheet.create({
 
-  imgFondo: {
-    marginTop: 20,
-    width: '100%',
-    height: 500,
-    borderRadius: 15,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
-
-  },
   container: {
     flexGrow: 1,
     padding: 5,
@@ -86,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    marginTop: -380,
+    marginTop:40,
     width: '100%',
     height: 300,
     borderRadius: 20,
@@ -140,7 +109,7 @@ const styles = StyleSheet.create({
   },
 
   addButton: {
-    marginTop: 80,
+    marginTop: 30,
     backgroundColor: 'black',
     borderRadius: 10,
     paddingVertical: 15,
