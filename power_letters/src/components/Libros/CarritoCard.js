@@ -1,115 +1,102 @@
-
-import { StatusBar, StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image, Button } from 'react-native';
-import { useState, useEffect } from 'react';
-import { FontAwesome } from '@expo/vector-icons'; // Importamos el ícono
+import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import * as Constantes from "../../utils/constantes";
 
-//recibimos por props la imagen del producto, nombre, precio y otras propiedades de productos para mostrarlas en el componente de 
-//productoCard
-
-
-export default function CarritoCard({ item, onPress
-  
-}) {
-
+export default function CarritoCard({ item, onIncrease, onDecrease, onDelete }) {
   return (
-//Plantilla de las tarjetas de libros
-    <View style={styles.card}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
-          style={styles.image}
-          resizeMode="contain" // Ajustar la imagen al contenedor
-        />
+    <TouchableOpacity style={styles.card}>
+      <Image
+        source={{ uri: `${Constantes.IP}/NewPowerLetters/api/images/libros/${item.imagen}` }}
+        style={styles.image}
+        resizeMode="contain" // Ajustar la imagen al contenedor
+      />
+      <View style={styles.detailsContainer}>
+        <Text style={styles.textTitle}>{item.nombre_producto}</Text>
+        <Text style={styles.textPrecio}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
+        <Text style={styles.textPrecio}>Cantidad: <Text style={styles.textDentro}>{item.cantidad}</Text></Text>
+        <View style={styles.quantityContainer}>
+          <TouchableOpacity 
+            style={styles.quantityButton} 
+            onPress={() => onDecrease(item)}
+          >
+            <Text style={styles.quantityButtonText}>-</Text>
+          </TouchableOpacity>
+          <Text style={styles.quantity}>{item.cantidad}</Text>
+          <TouchableOpacity 
+            style={styles.quantityButton} 
+            onPress={() => onIncrease(item)}
+          >
+            <Text style={styles.quantityButtonText}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity onPress={() => onDelete(item.id_detalle)} style={styles.deleteButton}>
+          <Text style={{ color: '#fff', fontWeight: 'bold' }}>Eliminar</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.textTitle}>{item.nombre_producto}</Text>
-      <Text style={styles.textPrecio}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
-      <Text style={styles.textPrecio}>Cantidad: <Text style={styles.textDentro}>{item.cantidad}</Text></Text>
-      <TouchableOpacity onPress={() => onPress(item.id_libro)} style={styles.buton}>
-        <Text>Ver mas</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleDeleteDetalleCarrito(item.id_detalle)} style={styles.buton2}>
-        <Text>Eliminar</Text>
-      </TouchableOpacity>
-    </View>
-
+    </TouchableOpacity>
   );
 }
-//Diseño y estilo de las tarjetas
-const styles = StyleSheet.create({
-    containerFlat: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-    },
-    image: {
-        marginRight: 250,
-        width: 200,
-        height: 150,
-        borderRadius: 30,
-        marginBottom: 15,
-    },
-    container: {
-        flexGrow: 1,
-        backgroundColor: '#F8F9FB',
-        paddingVertical: 60, // Reducido el espacio vertical
-        paddingHorizontal: 15,
-      },
-    card: {
-        width: '100%',
-        height: 200,
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        padding: 20,
-        marginBottom: 25,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 10,
-    },
-    buton: {
-        marginTop: 5,
-        marginLeft:230,
-        backgroundColor: '#5981CF',
-        borderRadius: 15,
-        paddingVertical: 10,
-        paddingHorizontal: 25,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 8,
-    },
-    
-    buton2: {
-        marginTop: -40,
-        backgroundColor: '#5981CF',
-        borderRadius: 15,
-        paddingVertical: 10,
-        paddingHorizontal: 25,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 8,
-    },
 
-   
-    textTitle: {
-        marginTop: -170,
-        marginLeft: 90,
-        fontSize: 15,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 8,
-        color: '#333',
-    },
-    textPrecio: {
-        fontSize: 15,
-        marginLeft: 80,
-        color: '#555',
-        textAlign: 'center',
-        marginBottom: 15,
-    },
+// Estilos actualizados
+const styles = StyleSheet.create({
+  card: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 25,
+    flexDirection: 'row', // Cambiado para alinear imagen y detalles horizontalmente
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  image: {
+    width: 100, // Ajusta el tamaño de la imagen
+    height: 150,
+    borderRadius: 10,
+    marginRight: 15, // Espacio entre la imagen y el texto
+  },
+  detailsContainer: {
+    flex: 1, // Ocupa el espacio restante
+  },
+  textTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 5,
+  },
+  textPrecio: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 5,
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  quantityButton: {
+    backgroundColor: '#5981CF',
+    borderRadius: 15,
+    padding: 5,
+    marginHorizontal: 5,
+  },
+  quantityButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    width:10,
+  },
+  quantity: {
+    fontSize: 16,
+  },
+  deleteButton: {
+    backgroundColor: '#FF3B30', // Color rojo para el botón de eliminar
+    borderRadius: 15,
+    paddingVertical: 10,
+    alignItems: 'center',
+    marginTop: 10,
+    width:110,
+  },
 });

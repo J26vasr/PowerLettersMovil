@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, ScrollView, Image } from 'react-native';
 import * as Constantes from '../utils/constantes';
-// src/screens/CarritoScreen.js
 import styles from '../components/estilos/CarritoScreenStyles';
 import { useIsFocused } from '@react-navigation/native';
-import fetchData from '../api/components';
 import LibroItem from '../components/Libros/CarritoCard';
 
 const CarritoScreen = ({ navigation }) => {
@@ -12,7 +10,6 @@ const CarritoScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true); // Estado para manejar el indicador de carga
   const [refreshing, setRefreshing] = useState(false); // Estado para manejar el indicador de refresh
   const [subtotal, setSubtotal] = useState(0); // Estado para almacenar el subtotal del carrito
-  const [descuento, setDescuento] = useState(0); // Estado para almacenar el descuento aplicado
 
   const ip = Constantes.IP;
   const isFocused = useIsFocused();
@@ -41,14 +38,21 @@ const CarritoScreen = ({ navigation }) => {
     }
   }, [isFocused, fetchCarrito]);
 
+  const calcularSubtotal = (carrito) => {
+    let total = 0;
+
+    carrito.forEach(item => {
+      const subtotalProducto = item.precio * item.cantidad;
+      total += subtotalProducto; // Sumar solo el subtotal del producto
+    });
+
+    setSubtotal(total); // Actualizar el subtotal sin descuentos
+  };
+
   const handleQuantityChange = async (item, type) => {
     let newCantidad = item.cantidad;
 
     if (type === 'increase') {
-      if (newCantidad >= 5) {
-        Alert.alert('Límite alcanzado', 'No puedes agregar más de 5 productos.');
-        return;
-      }
       newCantidad++;
     } else if (type === 'decrease') {
       newCantidad--;
@@ -69,11 +73,13 @@ const CarritoScreen = ({ navigation }) => {
       const data = await response.json();
 
       if (data.status === 1) {
-        setCarrito(prevCarrito => (
-          prevCarrito.map(libro =>
+        setCarrito(prevCarrito => {
+          const updatedCarrito = prevCarrito.map(libro =>
             libro.id_detalle === item.id_detalle ? { ...libro, cantidad: newCantidad } : libro
-          )
-        ));
+          );
+          calcularSubtotal(updatedCarrito); // Recalcular el subtotal
+          return updatedCarrito;
+        });
         Alert.alert('Éxito', data.message);
       } else {
         Alert.alert('Error', data.error || 'Ocurrió un problema al actualizar la cantidad del producto');
@@ -99,6 +105,7 @@ const CarritoScreen = ({ navigation }) => {
       if (data.status === 1) {
         const updatedCarrito = carrito.filter(libro => libro.id_detalle !== idDetalle);
         setCarrito(updatedCarrito);
+        calcularSubtotal(updatedCarrito); // Recalcular el subtotal después de eliminar
         Alert.alert('Éxito', data.message);
       } else {
         Alert.alert('Error', data.error || 'Ocurrió un problema al eliminar el producto');
@@ -119,26 +126,7 @@ const CarritoScreen = ({ navigation }) => {
   }, [fetchCarrito]);
 
   useEffect(() => {
-    const calcularSubtotal = () => {
-      let total = 0;
-      let descuentoTotal = 0;
-
-      carrito.forEach(item => {
-        const subtotalProducto = item.precio_unitario * item.cantidad;
-        if (item.valor_oferta) {
-          const subtotalConDescuento = subtotalProducto - (subtotalProducto * item.valor_oferta) / 100;
-          total += subtotalConDescuento;
-          descuentoTotal += subtotalProducto - subtotalConDescuento;
-        } else {
-          total += subtotalProducto;
-        }
-      });
-
-      setSubtotal(total);
-      setDescuento(descuentoTotal);
-    };
-
-    calcularSubtotal();
+    calcularSubtotal(carrito); // Calcular subtotal al cargar el carrito
   }, [carrito]);
 
   const finalizarCompra = async () => {
@@ -213,7 +201,7 @@ const CarritoScreen = ({ navigation }) => {
       <View style={styles.subtotalContainer}>
         <Text style={styles.subtotalText}>Subtotal: ${subtotal.toFixed(2)}</Text>
       </View>
-      <TouchableOpacity style={styles.finalizarCompraButton} onPress={finalizarCompra}>
+      <TouchableOpacity style={[styles.finalizarCompraButton, { backgroundColor: '#000' }]} onPress={finalizarCompra}>
         <Text style={{ color: '#fff', fontWeight: 'bold' }}>Finalizar compra</Text>
       </TouchableOpacity>
       <View style={{ height: 20 }} />
