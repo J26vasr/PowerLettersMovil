@@ -192,7 +192,7 @@ const CarritoScreen = ({ navigation }) => {
       {carrito.length === 0 && (
         <View style={styles.emptyCarritoContainer}>
           <Image
-            source={{ uri: 'https://static.vecteezy.com/system/resources/previews/009/417/131/original/ecommerce-icon-empty-yellow-shopping-cart-3d-illustration-free-png.png' }}
+            source={{ uri: 'https://cdn-icons-png.flaticon.com/512/8146/8146003.png' }}
             style={styles.emptyCartImage}
           />
           <Text style={styles.emptyCarritoText}>No hay productos en el carrito.</Text>

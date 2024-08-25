@@ -11,7 +11,7 @@ export default function CarritoCard({ item, onIncrease, onDecrease, onDelete }) 
       />
       <View style={styles.detailsContainer}>
         <Text style={styles.textTitle}>{item.nombre_producto}</Text>
-        <Text style={styles.textPrecio}>Precio: <Text style={styles.textDentro}>${item.precio}</Text></Text>
+        <Text style={styles.textPrecio}>Precio Actual: <Text style={styles.textDentro}>${item.precio}</Text></Text>
         <Text style={styles.textPrecio}>Cantidad: <Text style={styles.textDentro}>{item.cantidad}</Text></Text>
         <View style={styles.quantityContainer}>
           <TouchableOpacity 
