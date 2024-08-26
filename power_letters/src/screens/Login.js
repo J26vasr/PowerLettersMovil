@@ -73,8 +73,8 @@ const LoginScreen = ({ navigation, setLogueado, logueado }) => {
   };
 
   // Función para redirigir a la pantalla de recuperación de contraseña
-  const handleForgotPasswordRedirect = () => {
-    navigation.navigate('PasswordRecovery');
+  const handleResetPassword = () => {
+    navigation.navigate('handleResetPassword');
   };
 
   return (
@@ -116,7 +116,7 @@ const LoginScreen = ({ navigation, setLogueado, logueado }) => {
         <Text style={styles.registerLink}>¿No tienes cuenta? Crea una</Text>
       </TouchableOpacity>
       {/* Enlace para redirigir a la pantalla de recuperación de contraseña */}
-      <TouchableOpacity onPress={handleForgotPasswordRedirect}>
+      <TouchableOpacity onPress={handleResetPassword}>
         <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
       </TouchableOpacity>
     </View>

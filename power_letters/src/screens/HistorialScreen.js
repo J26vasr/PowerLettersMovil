@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, Alert, RefreshControl, TouchableOpacity } from 'react-native';
 import * as Constantes from '../utils/constantes';
 import { Ionicons } from '@expo/vector-icons';
-import styles from '../screens/HistorialScreen';
+import styles from '../components/Libros/StyleHistorial';
 import CardHistorial from '../components/estilos/CardHistorial';
+
 
 const HistorialScreen = ({ navigation }) => {
     const [historial, setHistorial] = useState([]);

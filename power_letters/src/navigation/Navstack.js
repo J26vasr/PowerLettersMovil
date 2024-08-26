@@ -7,6 +7,7 @@ import LoginScreen from '../screens/Login';
 import SignUp from '../screens/Registro';
 import DetalleLibroScreen from '../screens/DetalleProducto';
 import EditarPerfilScreen from '../screens/EditarPerfilScreen';
+import ContraScreen from '../screens/Recuperacion';
 
 // Navegador Stack
 const Stack = createStackNavigator();
@@ -60,6 +61,15 @@ const  NavStack = ({logueado, setLogueado,libroId}) =>  {
         }}
       >
         {props => <EditarPerfilScreen {...props} libroId={libroId} />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="handleResetPassword"
+        options={{
+          headerShown: false,
+        }}
+      >
+        {props => <ContraScreen {...props} libroId={libroId} />}
       </Stack.Screen>
         
 

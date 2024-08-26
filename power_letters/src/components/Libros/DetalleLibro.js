@@ -27,8 +27,7 @@ export default function DetalleProductoCard({ item, onPress }) {
         <Text style={styles.detailsLabel}>Género: <Text style={styles.detailsValue}>{item.nombre_genero}</Text></Text>
         <Text style={styles.detailsLabel}>Existencias: <Text style={styles.detailsValue}>{item.existencias}</Text></Text>
 
-
-
+        
   
 
 
@@ -44,6 +43,16 @@ export default function DetalleProductoCard({ item, onPress }) {
 
 
 const styles = StyleSheet.create({
+  quantityContainer: {
+    padding: 12,
+    margin: 2,
+    borderRadius: 10,
+    backgroundColor: "white",
+    width: "100%",
+    elevation: 2,
+    marginTop:40,
+  },
+
 
   container: {
     flexGrow: 1,

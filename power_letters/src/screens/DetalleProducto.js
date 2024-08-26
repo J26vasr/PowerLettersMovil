@@ -101,23 +101,58 @@ const DetalleLibroScreen = ({ route}) => {
           value= {String(quantity)}
           onChangeText={(text)=> setQuantity(Number(text))}
           />
-
-
         </View>
+        <View style={styles.Comentar}>
+          <Text styles={styles.text}>Comentar:</Text>
+          <TextInput style={styles.quantityInput}
+         
+          />
+        </View>
+        <TouchableOpacity style={styles.addButton} onPress={() => onPress(item.id_libro)}>
+        <Text style={styles.addButtonText}>Comentar</Text>
+      </TouchableOpacity>
         
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  
+  addButton: {
+    marginTop: 30,
+    backgroundColor: 'black',
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+
+  addButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
 
   container: {
     flexGrow: 1,
     padding: 42,
     backgroundColor: '#F8F9FA',
   },
-  
   quantityContainer: {
+    padding: 12,
+    margin: 2,
+    borderRadius: 10,
+    backgroundColor: "white",
+    width: "100%",
+    elevation: 2,
+    marginTop:20,
+  },
+  Comentar: {
     padding: 12,
     margin: 2,
     borderRadius: 10,
