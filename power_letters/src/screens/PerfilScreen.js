@@ -9,12 +9,10 @@ const PerfilScreen = () => {
 
  // Navegacion entre laspantallas
   const handleMiPerfilPress = () => {
-    navigation.navigate('MiPerfil');
+    navigation.navigate('NavStack', {screen: 'EditarPerfilScreen'});
   };
 
-  const handleTerminosCondicionesPress = () => {
-    navigation.navigate('TerminosyCondiciones');
-  };
+ 
 
   return (
      //Estilo del perfil dviddido en distintas opciones
@@ -33,9 +31,6 @@ const PerfilScreen = () => {
       <View style={styles.menuContainer}>
         <TouchableOpacity onPress={handleMiPerfilPress}>
           <MenuItem title="Mi perfil" icon="person-outline" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleTerminosCondicionesPress}>
-          <MenuItem title="Terminos y condiciones" icon="document-text-outline" />
         </TouchableOpacity>
       </View>
 

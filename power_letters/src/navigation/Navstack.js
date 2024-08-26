@@ -6,6 +6,7 @@ import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/Login';
 import SignUp from '../screens/Registro';
 import DetalleLibroScreen from '../screens/DetalleProducto';
+import EditarPerfilScreen from '../screens/EditarPerfilScreen';
 
 // Navegador Stack
 const Stack = createStackNavigator();
@@ -50,6 +51,15 @@ const  NavStack = ({logueado, setLogueado,libroId}) =>  {
         }}
       >
         {props => <DetalleLibroScreen {...props} libroId={libroId} />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="EditarPerfilScreen"
+        options={{
+          headerShown: false,
+        }}
+      >
+        {props => <EditarPerfilScreen {...props} libroId={libroId} />}
       </Stack.Screen>
         
 
